@@ -35,7 +35,6 @@ app.get("/products", async (req, res) => {
     }
   });
   
-
 //get a single product
 app.get("/products/:id", async (req, res) => {
     try {
