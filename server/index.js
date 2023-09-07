@@ -7,9 +7,6 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json()); //req body
 
-
-
-
 //Routes//
 
 //create a product
@@ -53,11 +50,36 @@ app.get("/products/:id", async (req, res) => {
     }
   });
 
-//update a product
+//update a product 
+app.put("/products/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name } = req.body;
+      const updateProduct = await pool.query(
+        "UPDATE product SET name = $1 WHERE product_id = $2",
+        [name, id]
+      );
+  
+      res.json("Product was updated!");
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
 
 //delete a product
-
-
+app.delete("/products/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deleteProduct = await pool.query("DELETE FROM product WHERE product_id = $1", [
+        id,
+      ]);
+  
+      res.json("Product was deleted!");
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+  
 app.listen(4000, () => {
     console.log("The server has started on Port 4000");
   });
