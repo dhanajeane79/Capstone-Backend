@@ -1,0 +1,170 @@
+/* .top-nav {
+    background-color: #f9f9f9
+}
+
+.fixed-top {
+    width: 100%;
+}
+
+.top-navbar {
+    width: 100%
+}
+
+.menu-items {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-right: 15px;
+}
+
+NavBar {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.header {
+    background-color: lavender;
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    padding: 10px;
+    text-align: center;
+}
+
+.header-container {
+    margin: 0 auto;
+    padding: 10px;
+    color: #333;
+    font-size: 24px;
+}
+
+.header-list {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-inline-start: 10px;
+}
+
+.header-item-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.header-text {
+    flex: 1;
+    text-align: center;
+  }
+
+  .header-title {
+    font-size: 24px;
+    margin: 0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+  }
+
+.container-fluid {
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-categories {
+    background-color: blue;
+    padding: 70px;
+    color: white;
+}
+
+.fixed-section {
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    z-index: 1;
+}
+
+.fixed-content {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 auto;
+    padding-top: 12px;
+    padding-left: 20px;
+    background-color: rgb(115, 115, 155);
+    gap: 20px;
+}
+
+a {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    color: black;
+    text-decoration: none;
+} */
+
+.nav-bar-combo {
+    position: fixed;
+    top: 1px;
+    right: 210px;
+    left: 210px;
+}
+
+.container {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 0px;
+}
+
+.middle-nav {
+    background-color: cadetblue; /* Replace with your desired background color */
+    /* Add any other styles as needed */
+  }
+
+.middle-nav {
+display: flex;
+justify-content: space-between; 
+}
+
+.middle-nav-container {
+    text-align: center; /* Center the contents horizontally */
+  }
+
+  .middle-nav-link-container {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 50px;
+  }
+  
+  .header-title-container {
+    padding-left: 50px;
+  }
+
+  .ms-auto {
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+  }
+
+.nav-link {
+    align-content: end;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.bottom-nav-link-container {
+    padding-top: 10px;
+
+}

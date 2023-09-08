@@ -1,0 +1,26 @@
+.page-content {
+    padding-top: 200px; /* Add padding to create space between content and Navbar */
+  }
+  .page-content {
+    min-height: calc(100vh - 100px); /* Adjust 100px to match your footer's height */
+    padding-bottom: 100px; /* Adjust 100px to match your footer's height */
+    /* Set the minimum height and add padding to create space for the footer */
+  }
+  
+  /* Style your footer */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px; /* Adjust the height as needed */
+    background-color: #333; /* Set your desired background color */
+    color: white; /* Set text color */
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .bottom-nav {
+  background-color: rgb(157, 158, 238);
+  
+  }
