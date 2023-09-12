@@ -19,8 +19,10 @@ import ViewCart from "./Components/ViewCart";
 
 
 
+
 function App() {
-  const BASE_URL = 'https://api.escuelajs.co/api/v1';
+  const BASE_URL = 'http://localhost:4000/api';
+  // const BASE_URL = 'https://api.escuelajs.co/api/v1';
   const storedToken = localStorage.getItem("authToken"); // Check if there is a token in localStorage
   const [token, setToken] = useState(storedToken || ""); // Set initial value to storedToken
 
