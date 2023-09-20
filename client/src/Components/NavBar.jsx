@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -12,7 +13,7 @@ import { Link } from "react-router-dom";
 import "../CSS-Components/StyleNavBar.css";
 import overlayImage from "../assets/Logo7.png";
 
-function NavBar() {
+function NavBar({ isLoggedIn, logout }) {
   return (
     <div className="nav-bar-combo">
       {/* First Navbar (Top Navbar) */}
@@ -34,7 +35,7 @@ function NavBar() {
             </Link>
           </Nav>
         </Navbar.Collapse>
-        <Form inline>
+        <Form>
           <Row>
             <Col xs="auto">
               <Form.Control
@@ -70,12 +71,20 @@ function NavBar() {
               <Link to="/cart" className="nav-link">
                 Cart ()
               </Link>
-              <Link to="/login" className="nav-link">
-                Login
-              </Link>
+            
               <Link to="/register" className="nav-link">
                 Register
               </Link>
+              {!isLoggedIn ? ( 
+                <Link to="/login" className="nav-link">
+                Login
+              </Link>
+              ) : (
+                <li className="navbar-item">
+                  <button onClick={logout}>Logout</button>
+                </li>
+                
+              )}
             </Nav>
           </div>
         </Navbar>

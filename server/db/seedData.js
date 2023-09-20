@@ -20,20 +20,21 @@ async function createTables() {
     await client.query(`
       CREATE TABLE products (
         id SERIAL PRIMARY KEY,
-        product_name VARCHAR(255) UNIQUE NOT NULL,
-        description TEXT NOT NULL,
-        price INTEGER NOT NULL,
+        product_name VARCHAR(255) UNIQUE ,
+        description TEXT ,
+        price INTEGER ,
         "inStock" BOOLEAN DEFAULT false,
         "imgUrl" VARCHAR(255) DEFAULT 'https://i.natgeofe.com/k/7bfcf2d2-542e-44f0-962a-c36f2efa98a5/heart_4x3.jpg'
       );
 
       CREATE TABLE users (
         id SERIAL PRIMARY KEY,
-        username VARCHAR(255) UNIQUE NOT NULL,
-        email varchar(100) NOT NULL UNIQUE,
-        password_hash varchar(255) NOT NULL
+        username VARCHAR(255) UNIQUE,
+        email varchar(100)  UNIQUE,
+        password_hash varchar(255) 
       );
     `);
+    
   } catch (error) {
     throw error;
   }
@@ -63,6 +64,7 @@ async function createInitialData() {
         ('donna', 'donna@gmail.com', 'asdfghjk'),
         ('dhanaWhana', 'dhanawhana@gmail.com', 'asdfghjk')
     `);
+
   } catch (error) {
     throw error;
   }

@@ -15,14 +15,14 @@ import AboutUs from "./Components/AboutUs"
 import OrderStatus from "./Components/OrderStatus"
 import ContactUs from "./Components/ContactUs"
 import ViewCart from "./Components/ViewCart";
+import UserProfile from "./Components/UserProfile";
 
 
 
 
 
 function App() {
-  const BASE_URL = 'http://localhost:4000/api';
-  // const BASE_URL = 'https://api.escuelajs.co/api/v1';
+  const BASE_URL = 'http://localhost:4000/api'; 
   const storedToken = localStorage.getItem("authToken"); // Check if there is a token in localStorage
   const [token, setToken] = useState(storedToken || ""); // Set initial value to storedToken
 
@@ -35,9 +35,11 @@ function App() {
   }, []);
 
   // Function to handle successful login and set token
-  const handleLoginSuccess = (newToken) => {
-    localStorage.setItem("authToken", newToken); // Store the token in localStorage
-    setToken(newToken); // Set the token in state
+  
+    const handleLoginSuccess = (newToken) => {
+      console.log('handleLoginSuccess called with token:', newToken);
+      localStorage.setItem("authToken", newToken);
+      setToken(newToken);
   };
 
   // Function to handle logout and clear token
@@ -61,7 +63,8 @@ function App() {
           <Route path="/products" element={<Layout> <AllProducts BASE_URL={BASE_URL} token={token} /></Layout>}/>
           <Route path="/cart" element={<Layout> <ViewCart BASE_URL={BASE_URL} token={token} /></Layout>}/>
           <Route path="/register" element={<Layout> <RegistrationForm BASE_URL={BASE_URL} /></Layout>}/>
-          <Route path="/login" element={<Layout> <Login BASE_URL={BASE_URL} handleLoginSuccess={handleLoginSuccess} /></Layout>} /> 
+          <Route path="/login" element={<Layout> <Login BASE_URL={BASE_URL} handleLoginSuccess={handleLoginSuccess} token={token} setToken={setToken}/></Layout>} />
+          <Route path="/profile" element={<Layout> <UserProfile BASE_URL={BASE_URL} token={token} /> </Layout>}/>
         </Routes>
       </div>
     </Router>

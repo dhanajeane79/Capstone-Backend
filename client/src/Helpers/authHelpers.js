@@ -1,4 +1,7 @@
 // Set the user token on state and optionally in sessionStorage
+
+
+
 export const logIn = (token, setToken) => {
     setToken(token);
     // Save the token to sessionStorage for automatic login
