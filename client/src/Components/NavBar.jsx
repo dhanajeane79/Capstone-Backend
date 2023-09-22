@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
+import {Button, Container, Navbar, Modal} from 'react-bootstrap';
+// import Button from "react-bootstrap/Button";
+// import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+// import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
