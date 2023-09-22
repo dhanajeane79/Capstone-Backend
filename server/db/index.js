@@ -1,6 +1,6 @@
 module.exports = {
     ...require('./products'),
     ...require('./users'),
-    // ...require('./users/register'),
-    // ...require('./users/login')
+//     ...require('./users/register'),
+//  ...require('./users/login')
 };

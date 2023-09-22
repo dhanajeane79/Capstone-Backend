@@ -113,18 +113,18 @@ const SALT_COUNT = 10;
 
 
 // POST - /api/users - create a new user
-async function createUser({ email, password }) {
+async function createUser( username, email, password ) {
   const password_hash = await bcrypt.hash(password, SALT_COUNT);
   try {
     const {
       rows: [user],
     } = await client.query(
       `
-            INSERT INTO users(email, password_hash)
-            VALUES($1, $2)
+            INSERT INTO users(username, email, password_hash)
+            VALUES($1, $2, $3)
             RETURNING *;
         `,
-      [email, password_hash]
+      [username, email, password_hash]
     );
 
     return user;

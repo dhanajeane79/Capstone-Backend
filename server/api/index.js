@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const { getUserByID } = require('../db');
+const { getUserById } = require('../db');
 const client = require('../db/client');
 const { JWT_SECRET = 'neverTell'} = process.env;
 
@@ -33,7 +33,7 @@ router.use(async (req, res, next) => {
       
       const id = parsedToken && parsedToken.id
       if (id) {
-        req.user = await getUserByID(id);
+        req.user = await getUserById(id);
         next();
       }
     } catch (error) {

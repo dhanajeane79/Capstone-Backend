@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const server = express();
 const morgan = require('morgan');
+// init body-parser
+const bodyParser = require('body-parser');
+server.use(bodyParser.json());
 
 const cors = require('cors');
 const {PORT = 4000} = process.env;
