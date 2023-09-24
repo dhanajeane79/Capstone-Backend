@@ -29,7 +29,7 @@ async function updateCartItemQuantity(cartItemId, quantity) {
       WHERE id = $2
       RETURNING *;
     `,
-      [quantity, cartItemId]
+      [cartItemId, quantity]
     );
 
     return rows[0];

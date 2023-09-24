@@ -1,51 +1,115 @@
-require('dotenv').config();
+
 const express = require('express');
-const server = express();
-const morgan = require('morgan');
-// init body-parser
-const bodyParser = require('body-parser');
-server.use(bodyParser.json());
-
 const cors = require('cors');
-const {PORT = 4000} = process.env;
-
+const path = require('path');
+const server = express();
+const { requireUser } = require('./api/utils');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const { PORT = 4000, JWT_SECRET = 'neverTell' } = process.env;
 const client = require('./db/client');
+require('dotenv').config();
 client.connect();
 
-server.use(cors());
+// routes
 
-// logging middleware
+
+
+// Middleware
+
+server.use(cors());
 server.use(morgan('dev'));
-// parsing middleware
-server.use(express.json());
-server.use(express.urlencoded({extended: true}));
+server.use(bodyParser.json());
+server.use(express.urlencoded({ extended: true }));
+// server.use(express.json());
+
+const products = require('./api/products');
+
+const { addToCart, getUserCart } = require('./db/cart');
+const jwt = require('jsonwebtoken');
+
+// Middleware to verify JWT token
+function verifyToken(req, res, next) {
+  const token = req.header('Authorization');
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded.user;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Token is not valid' });
+  }
+}
 
 // Serve Docs
-const path = require('path');
+
 server.use('/docs', express.static(path.join(__dirname, 'public')));
 
-// Router: /api
-server.use('/api', require('./api'));
+// Routes
 
-server.get('/', (req, res) => {
-  res.redirect('/docs');
+
+server.use('/api/products', products);
+
+// POST - Add item to the cart
+server.post('/api/cart/add', requireUser, async (req, res) => {
+  try {
+    // Extract the user ID, product ID, and quantity from the request body
+    const { userId } = req.user;
+    const { productId, quantity } = req.body;
+
+    // Call the addToCart function to add the item to the cart
+    const cartItem = await addToCart(userId, productId, quantity);
+
+    // Return a success response with the added cart item
+    res.json({ message: 'Item added to cart successfully', cartItem });
+  } catch (error) {
+    // If there was an error, return an error response
+    console.error('Error adding item to cart:', error);
+    res.status(500).json({ error: 'Failed to add item to cart', message: error.message });
+  }
+});
+
+// GET - Fetch cart items
+server.get('/api/cart/items', requireUser, async (req, res) => {
+  try {
+    // Extract the user ID from the request object
+    const { userId } = req.user;
+
+    // Call the getUserCart function to fetch the user's cart items
+    const cartItems = await getUserCart(userId);
+
+    // Return the cart items as a JSON response
+    res.json(cartItems);
+  } catch (error) {
+    // If there was an error, return an error response
+    console.error('Error fetching cart items:', error);
+    res.status(500).json({ error: 'Failed to fetch cart items', message: error.message });
+  }
 });
 
 // 404 handler
 server.get('*', (req, res) => {
-  res.status(404).send({error: '404 - Not Found', message: 'No route found for the requested URL'});
+  res.status(404).send({ error: '404 - Not Found', message: 'No route found for the requested URL' });
 });
 
-// error handling middleware
+// Error handling middleware
 server.use((error, req, res, next) => {
   console.error('SERVER ERROR: ', error);
-  if(res.statusCode < 400) res.status(500);
-  res.send({error: error.message, name: error.name, message: error.message, table: error.table});
+  if (res.statusCode < 400) res.status(500);
+  res.send({ error: error.message, name: error.name, message: error.message, table: error.table });
 });
 
+// Start the server
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
+
+// }
+// );
 
 
 

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { requireUser } = require("../db/util");
+const { getUserCart } = require("../db/cart");
 
 const {
   addToCart,
@@ -14,7 +15,9 @@ const {
 router.post("/add", requireUser, async (req, res, next) => {
   const { userId } = req.user;
   const { productId, quantity } = req.body;
-
+console.log(userId)
+console.log(productId)
+console.log(quantity)
   try {
     const cartItem = await addToCart(userId, productId, quantity);
     res.json(cartItem);
@@ -51,12 +54,12 @@ router.delete("/remove/:cartItemId", requireUser, async (req, res, next) => {
 });
 
 // GET - /api/cart/user - Get user's cart contents
-router.get("/user", requireUser, async (req, res, next) => {
+router.get("/items", requireUser, async (req, res, next) => {
   const { userId } = req.user;
 
   try {
-    const userCart = await getUserCart(userId);
-    res.json(userCart);
+    const cartItems = await getUserCart(userId); // Use a function to fetch cart items
+    res.json(cartItems);
   } catch (error) {
     next(error);
   }

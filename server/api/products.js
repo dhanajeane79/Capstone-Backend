@@ -28,7 +28,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// // GET - /api/products/:id - get a single product by id
+// GET - /api/products/:id - get a single product by id
 router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -47,7 +47,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// PATCH /api/routines/:routineId
+// PATCH /api/products/:id - update a single product by id
 router.patch("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -55,16 +55,10 @@ router.patch("/:id", async (req, res, next) => {
     if (!productToUpdate) {
       next({
         name: "NotFound",
-        message: `No routine by ID ${id}`,
+        message: `No product by ID ${id}`,
       });
     } else {
-      const updatedProduct = await updateProduct({
-        id: product_name,
-        description,
-        price,
-        inStock,
-        imgUrl,
-      });
+      const updatedProduct = await updateProduct({ id, ...req.body });
       if (updatedProduct) {
         res.send(updatedProduct);
       } else {
@@ -79,7 +73,7 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-// // DELETE - /api/products/:id - delete a single product by id
+// DELETE - /api/products/:id - delete a single product by id
 router.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -99,6 +93,7 @@ router.delete("/:id", async (req, res, next) => {
 });
 
 module.exports = router;
+
 
 // GET - /api/products - get all products
 // router.get('/', async (req, res, next) => {
