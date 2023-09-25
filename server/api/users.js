@@ -20,9 +20,9 @@ router.post('/login', async (req, res, next) => {
   console.log(req.body);
   // request must have both
   if (!email || !password) {
-    next({
+    return res.status(400).send({
       name: 'MissingCredentialsError',
-      message: 'Please supply both an email and password'
+      message: 'Please supply both an email and password',
     });
   }
 

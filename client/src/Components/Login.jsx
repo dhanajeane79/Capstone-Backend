@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 // eslint-disable-next-line no-unused-vars
 import Form from "react-bootstrap/Form";
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../CSS-Components/Login-Form.css";
 import { fetchWithHeaders, makeHeaders } from "../Helpers/api";
@@ -15,7 +15,17 @@ function Login({ BASE_URL, handleLoginSuccess, token }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [logboxMessage, setLogboxMessage] = useState(""); // New state for the logbox message.
   const navigate = useNavigate();
+
+  // New useEffect hook to fetch and clear the logbox message.
+  useEffect(() => {
+    const message = localStorage.getItem("logboxMessage");
+    if (message) {
+      setLogboxMessage(message);
+      localStorage.removeItem("logboxMessage");
+    }
+  }, []);
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -58,6 +68,8 @@ function Login({ BASE_URL, handleLoginSuccess, token }) {
     <div className="login-container">
       <h2>Login</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {/* New section to display the logbox message if it exists. */}
+      {logboxMessage && <p className="logbox-message">{logboxMessage}</p>}
       <form className="login-form" onSubmit={handleLoginSubmit}>
         <div>
           <label htmlFor="loginEmail">Email</label>

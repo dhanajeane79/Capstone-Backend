@@ -44,18 +44,20 @@ function AllProducts({ BASE_URL, token }) {
 
     fetchProducts();
   }, [BASE_URL, token]);
-
-  // Function to handle adding items to the cart
-  const handleAddToCart = async (productId) => {
-    if (!token) {
-      // If the user is not logged in, set an error message
-      setErrorMessage("You must be logged in to do that");
-      return;
-    }
+  
+// Function to handle adding items to the cart
+const handleAddToCart = async (productId) => {
+  if (!token) {
+    // If the user is not logged in, set an error message
+    localStorage.setItem("logboxMessage", 
+      "You must be logged in to add an item to your cart.");
+    navigate("/login");
+    return;
+  }
 
     try {
       // Call the addToCart function from CartContext here
-      addToCart(productId, 1);
+      addToCart(productId, 1); // Assuming you want to add 1 item to the cart
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
@@ -84,20 +86,12 @@ function AllProducts({ BASE_URL, token }) {
                 <h2 className="product-name">{product.name}</h2>
                 <p className="product-description">{product.description}</p>
                 <p className="product-price">${product.price}</p>
-                {/* <p
-                  className={`product-stock ${
-                    product.qty_in_stock > 0 ? "in-stock" : "out-of-stock"
-                  }`}
-                >
-                  {product.qty_in_stock > 0 ? "In Stock" : "Out of Stock"}
-                </p> */}
-                
               </div>
               <div className="add-item-cart">
-              <button onClick={() => handleAddToCart(product.id)}>
+                <button onClick={() => handleAddToCart(product.id)}>
                   Add to Cart
                 </button>
-                </div>
+              </div>
             </div>
           ))}
         </div>

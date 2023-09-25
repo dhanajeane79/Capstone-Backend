@@ -7,6 +7,7 @@ const path = require('path');
 const { requireUser } = require('./api/utils');
 const { PORT = 4000, JWT_SECRET = 'neverTell' } = process.env;
 
+
 require('dotenv').config();
 
 const client = require('./db/client');
@@ -50,7 +51,7 @@ server.use('/api/users', require('./api/users'));
 server.use('/api/products', require('./api/products'));
 
 // POST - Add item to the cart
-server.post('/api/cart/add', requireUser, async (req, res) => {
+server.post('/api/cart/add', verifyToken, async (req, res) => {
   try {
     // Extract the user ID, product ID, and quantity from the request body
     const { userId } = req.user;
@@ -69,7 +70,7 @@ server.post('/api/cart/add', requireUser, async (req, res) => {
 });
 
 // GET - Fetch cart items
-server.get('/api/cart/items', requireUser, async (req, res) => {
+server.get('/api/cart/items', verifyToken, async (req, res) => {
   try {
     // Extract the user ID from the request object
     const { userId } = req.user;

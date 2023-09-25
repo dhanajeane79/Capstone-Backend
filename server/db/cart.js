@@ -62,14 +62,14 @@ async function removeFromCart(cartItemId) {
 // Get user's cart contents
 async function getUserCart(userId) {
   try {
-    const { rows } = await client.query(
+      const { rows } = await client.query(
       `
-      SELECT cart_items.id, cart_items.quantity, products.product_name, products.price
-      FROM cart_items
-      JOIN product_items ON cart_items.product_item_id = product_items.id
-      JOIN products ON product_items.product_id = products.id
-      WHERE cart_items.cart_id = (SELECT id FROM cart WHERE user_id = $1);
-    `,
+      SELECT cart_item.id, cart_item.quantity, products.name, product_item.item_price
+      FROM cart_item
+      JOIN product_item ON cart_item.product_item_id = product_item.id
+      JOIN products ON product_item.product_id = products.id
+      WHERE cart_item.cart_id = (SELECT id FROM cart WHERE user_id = $1);
+      `,
       [userId]
     );
 
