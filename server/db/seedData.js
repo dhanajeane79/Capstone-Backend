@@ -1,4 +1,125 @@
 const client = require("./client");
+// drop tables for products and users
+async function dropTables() {
+  try {
+    console.log("Dropping All Tables...");
+    await client.query(`
+    DROP TABLE IF EXISTS product_item CASCADE;
+    DROP TABLE IF EXISTS products CASCADE;
+    DROP TABLE IF EXISTS product_category CASCADE;
+    `);
+  } catch (error) {
+    throw error;
+  }
+}
+// build tables for products and users
+async function createTables() {
+  try {
+    console.log("Building All Tables...");
+    await client.query(`
+    CREATE TABLE product_category (
+      id SERIAL PRIMARY KEY,
+      parent_category_id INTEGER REFERENCES product_category(id),
+      category_name VARCHAR(255) 
+  );
+
+  CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    category_id INTEGER REFERENCES product_category(id),
+    name VARCHAR(255),
+    description TEXT,
+    product_image VARCHAR(255)
+);
+
+CREATE TABLE product_item (
+  id SERIAL PRIMARY KEY,
+  product_id INTEGER REFERENCES products(id),
+  product_image VARCHAR(255),
+  item_price NUMERIC(10, 2) 
+);
+
+    `);
+      
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function createInitialData() {
+  try {
+    console.log("Creating Initial Data...");
+    await client.query(`
+    INSERT INTO product_category (category_name)
+    VALUES
+      ('Electronics'),
+      ('Clothing'),
+      ('Home and Garden');
+    `);
+    await client.query(`
+    INSERT INTO products (category_id, name, description, product_image)
+    VALUES
+      (1, 'Smartphone', 'High-end smartphone with advanced features.', 'smartphone.jpg'),
+      (1, 'Laptop', 'Powerful laptop for professional use.', 'laptop.jpg'),
+      (2, 'T-shirt', 'Comfortable cotton T-shirt.', 'tshirt.jpg'),
+      (2, 'Jeans', 'Classic blue jeans for everyday wear.', 'jeans.jpg'),
+      (3, 'Garden Tools', 'Essential tools for gardening.', 'gardentools.jpg');
+    `);
+
+    await client.query(`
+    INSERT INTO product_item (product_id, product_image, item_price)
+VALUES
+  (1, 'smartphone1.jpg', 999.99),
+  (1, 'smartphone2.jpg', 1099.99),
+  (2, 'laptop1.jpg', 1499.99),
+  (3, 'tshirt1.jpg', 19.99),
+  (3, 'tshirt2.jpg', 19.99),
+  (4, 'jeans1.jpg', 39.99),
+  (5, 'gardentools1.jpg', 49.99),
+  (5, 'gardentools2.jpg', 29.99);
+  `);
+
+  } catch (error) {
+    throw error;
+  }
+}
+// build all tables and create initial data
+async function rebuildDB() {
+  try {
+    client.connect();
+    await dropTables();
+    await createTables();
+    await createInitialData();
+  } catch (error) {
+    throw error;
+  }
+}
+module.exports = {
+  rebuildDB,
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+const client = require("./client");
 
 // Drop tables for products and users
 async function dropTables() {
@@ -227,3 +348,4 @@ module.exports = {
   rebuildDB,
 };
       
+*/
