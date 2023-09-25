@@ -24,12 +24,7 @@ server.use(express.json());
 // Serve static files 
 server.use('/docs', express.static(path.join(__dirname, 'public')));
 
-// server.use('/api/health', require('./health'));
-
-// routes
-
-const products = require('./api/products');
-
+// Import necessary functions from db/cart.js
 const { addToCart, getUserCart } = require('./db/cart');
 const jwt = require('jsonwebtoken');
 
@@ -51,10 +46,8 @@ function verifyToken(req, res, next) {
 }
 
 // Routes
-
 server.use('/api/users', require('./api/users'));
 server.use('/api/products', require('./api/products'));
-// server.use('/api/cart', require('./api/cart'));
 
 // POST - Add item to the cart
 server.post('/api/cart/add', requireUser, async (req, res) => {
@@ -114,6 +107,7 @@ server.use((error, req, res, next) => {
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
+
 
 // }
 // );

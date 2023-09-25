@@ -84,17 +84,20 @@ function AllProducts({ BASE_URL, token }) {
                 <h2 className="product-name">{product.name}</h2>
                 <p className="product-description">{product.description}</p>
                 <p className="product-price">${product.price}</p>
-                <p
+                {/* <p
                   className={`product-stock ${
                     product.qty_in_stock > 0 ? "in-stock" : "out-of-stock"
                   }`}
                 >
                   {product.qty_in_stock > 0 ? "In Stock" : "Out of Stock"}
-                </p>
-                <button onClick={() => handleAddToCart(product.id)}>
+                </p> */}
+                
+              </div>
+              <div className="add-item-cart">
+              <button onClick={() => handleAddToCart(product.id)}>
                   Add to Cart
                 </button>
-              </div>
+                </div>
             </div>
           ))}
         </div>

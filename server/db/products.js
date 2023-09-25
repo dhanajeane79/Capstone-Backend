@@ -38,7 +38,7 @@ async function getProductById(id) {
 }
 
 // POST - /api/products - create a new product
-async function createProduct({ productId, name, description, product_image, category_id, item_price }) {
+async function createProduct({ name, description, category_id, item_price, product_image }) {
   try {
     const {
       rows: [product],
@@ -57,7 +57,7 @@ async function createProduct({ productId, name, description, product_image, cate
       INSERT INTO product_item(product_id, product_image, item_price)
       VALUES($1, $2, $3);
       `,
-      [product.id,  product_image, item_price]
+      [product.id, product_image, item_price]
     );
 
     return product;
@@ -65,6 +65,7 @@ async function createProduct({ productId, name, description, product_image, cate
     throw error;
   }
 }
+
 
 
 // PUT - /api/products/:id - update a single product by id
@@ -89,14 +90,14 @@ async function updateProduct({ id, ...fields }) {
       product = rows[0];
 
       // Update product_item table if necessary
-      if (fields.qty_in_stock !== undefined || fields.product_image !== undefined) {
+      if (fields.product_image !== undefined) {
         await client.query(
           `
           UPDATE product_item 
-          SET ${util.dbFields({ qty_in_stock: fields.qty_in_stock, product_image: fields.product_image }).insert}
-          WHERE product_id = $1;
+          SET product_image = $1
+          WHERE product_id = $2;
           `,
-          [id, ...Object.values(toUpdate)]
+          [fields.product_image, id]
         );
       }
 
@@ -106,6 +107,8 @@ async function updateProduct({ id, ...fields }) {
     throw error;
   }
 }
+
+
 
 // DELETE - /api/products/:id - delete a single product by id
 async function deleteProduct(id) {
