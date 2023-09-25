@@ -16,7 +16,10 @@ import OrderStatus from "./Components/OrderStatus";
 import ContactUs from "./Components/ContactUs";
 import ViewCart from "./Components/ViewCart";
 import UserProfile from "./Components/UserProfile";
+import CartProvider from "./Components/CartProvider";
 import { Container } from "react-bootstrap";
+
+
 
 function App() {
   const BASE_URL = "http://localhost:4000/api";
@@ -52,6 +55,17 @@ function App() {
           <NavBar isLoggedIn={Boolean(token)} logout={handleLogout} />
         </Container>
         <Routes>
+        <Route
+            path="/"
+            element={
+              <CartProvider> {/* Wrap your app with CartProvider */}
+                <Layout>
+                  {" "}
+                  <Home />{" "}
+                </Layout>
+              </CartProvider>
+            }
+          />
           <Route
             path="/"
             element={

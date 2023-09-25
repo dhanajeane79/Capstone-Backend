@@ -27,56 +27,32 @@ async function createUser( username, email, password ) {
 async function getAllUsers() {
   try {
     const { rows } = await client.query(`
-                SELECT * FROM users;
-            `);
+      SELECT * FROM users;
+    `);
     return rows;
   } catch (err) {
     throw err;
   }
 }
 
-async function getUser({ email, password }) {
-  if (!email || !password) {
-    return;
-  }
-
-  try {
-    const user = await getUserByEmail(email);
-    if (!user) return;
-    const password_hash = await bcrypt.hash(password, SALT_COUNT);
-    const passwordsMatch = await bcrypt.compare(password, password_hash);
-    if (!passwordsMatch) return;
-    delete user.password;
-    return user;
-  } catch (error) {
-    throw error;
-  }
-}
-
-//  GET - /api/users/:id - get a single user by id
 async function getUserById(id) {
   try {
     const {
       rows: [user],
     } = await client.query(
       `
-            SELECT * FROM users
-            WHERE id = $1;
-        `,
+        SELECT * FROM users
+        WHERE id = $1;
+      `,
       [id]
     );
-    // if it doesn't exist, return null
     if (!user) return null;
-    // if it does:
-    // delete the 'password' key from the returned object
-    delete user.password;
     return user;
   } catch (error) {
     throw error;
   }
 }
 
-//  GET - /api/users/email - get a single user by email
 async function getUserByEmail(email) {
   try {
     const {
@@ -85,13 +61,26 @@ async function getUserByEmail(email) {
       `
         SELECT * FROM users
         WHERE email = $1;
-    `,
+      `,
       [email]
     );
-    // if it doesn't exist, return null
     if (!user) return null;
-    // if it does:
-    // delete the 'password' key from the returned object
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getUser({ email, password }) {
+  if (!email || !password) {
+    return;
+  }
+  try {
+    const user = await getUserByEmail(email);
+    if (!user) return;
+    const password_hash = await bcrypt.hash(password, SALT_COUNT);
+    const passwordsMatch = await bcrypt.compare(password, password_hash);
+    if (!passwordsMatch) return;
     delete user.password;
     return user;
   } catch (error) {

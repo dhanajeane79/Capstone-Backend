@@ -1,27 +1,32 @@
 
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
-const server = express();
-const { requireUser } = require('./api/utils');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const path = require('path');
+const { requireUser } = require('./api/utils');
 const { PORT = 4000, JWT_SECRET = 'neverTell' } = process.env;
-const client = require('./db/client');
+
 require('dotenv').config();
+
+const client = require('./db/client');
 client.connect();
 
-// routes
-
-
+const server = express();
 
 // Middleware
-
 server.use(cors());
 server.use(morgan('dev'));
 server.use(bodyParser.json());
 server.use(express.urlencoded({ extended: true }));
-// server.use(express.json());
+server.use(express.json());
+
+// Serve static files 
+server.use('/docs', express.static(path.join(__dirname, 'public')));
+
+// server.use('/api/health', require('./health'));
+
+// routes
 
 const products = require('./api/products');
 
@@ -45,14 +50,11 @@ function verifyToken(req, res, next) {
   }
 }
 
-// Serve Docs
-
-server.use('/docs', express.static(path.join(__dirname, 'public')));
-
 // Routes
 
-
-server.use('/api/products', products);
+server.use('/api/users', require('./api/users'));
+server.use('/api/products', require('./api/products'));
+// server.use('/api/cart', require('./api/cart'));
 
 // POST - Add item to the cart
 server.post('/api/cart/add', requireUser, async (req, res) => {
@@ -89,6 +91,11 @@ server.get('/api/cart/items', requireUser, async (req, res) => {
     console.error('Error fetching cart items:', error);
     res.status(500).json({ error: 'Failed to fetch cart items', message: error.message });
   }
+});
+
+// Root route
+server.get('/', (req, res) => {
+  res.redirect('/docs');
 });
 
 // 404 handler

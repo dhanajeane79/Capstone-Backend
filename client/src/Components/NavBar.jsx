@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import {Button, Container, Navbar, Modal} from 'react-bootstrap';
+import React, { useContext, useState } from "react";
+import { Button, Container, Navbar, Modal } from "react-bootstrap";
 // import Button from "react-bootstrap/Button";
 // import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -13,8 +14,18 @@ import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import "../CSS-Components/StyleNavBar.css";
 import overlayImage from "../assets/Logo7.png";
+import { CartContext } from "./CartProvider";
 
 function NavBar({ isLoggedIn, logout }) {
+  const { cartItems } = useContext(CartContext);
+
+  // Define a variable to check if the cart link was clicked
+  let cartLinkClicked = false;
+
+  // Function to handle the cart link click
+  const handleCartLinkClick = () => {
+    cartLinkClicked = true;
+  };
   return (
     <div className="nav-bar-combo">
       {/* First Navbar (Top Navbar) */}
@@ -68,23 +79,20 @@ function NavBar({ isLoggedIn, logout }) {
           </div>
           <div className="middle-nav-link-container">
             <Nav className="ms-auto align-items-end">
-              {/* Align links to the right */}
-              <Link to="/cart" className="nav-link">
-                Cart ()
+            <Link to="/cart" className="nav-link">
+                Cart ({cartItems?.length || 0})
               </Link>
-            
               <Link to="/register" className="nav-link">
                 Register
               </Link>
-              {!isLoggedIn ? ( 
+              {!isLoggedIn ? (
                 <Link to="/login" className="nav-link">
-                Login
-              </Link>
+                  Login
+                </Link>
               ) : (
                 <li className="navbar-item">
                   <button onClick={logout}>Logout</button>
                 </li>
-                
               )}
             </Nav>
           </div>

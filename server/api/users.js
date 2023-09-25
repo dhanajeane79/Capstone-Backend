@@ -17,6 +17,7 @@ const { JWT_SECRET = 'neverTell' } = process.env;
 // POST /api/users/login
 router.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(req.body);
   // request must have both
   if (!email || !password) {
     next({
@@ -58,9 +59,9 @@ router.post('/register', async (req, res, next) => {
     const {username, email, password} = req.body.user;
 console.log(req.body);
 // console.log(user);
-// console.log(username);
-// console.log(email);
-// console.log(password);
+console.log(username);
+console.log(email);
+console.log(password);
 // console.log(user.username);
     // Check if the password is provided and is a string
     
