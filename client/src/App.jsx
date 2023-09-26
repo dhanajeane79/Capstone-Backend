@@ -25,7 +25,7 @@ function App() {
   const BASE_URL = "http://localhost:4000/api";
   const storedToken = localStorage.getItem("authToken"); // Check if there is a token in localStorage
   const [token, setToken] = useState(storedToken || ""); // Set initial value to storedToken
-
+  const [user, setUser] = useState(null);
   // State to store the authentication token
   useEffect(() => {
     const authToken = sessionStorage.getItem("authToken"); // Check if there's a token in sessionStorage
@@ -107,7 +107,7 @@ function App() {
             element={
               <Layout>
                 {" "}
-                <AllProducts BASE_URL={BASE_URL} token={token} />
+                <AllProducts user={user} BASE_URL={BASE_URL} token={token} />
               </Layout>
             }
           />
@@ -136,6 +136,7 @@ function App() {
                 {" "}
                 <Login
                   BASE_URL={BASE_URL}
+                  setUser={setUser}
                   handleLoginSuccess={handleLoginSuccess}
                   token={token}
                   setToken={setToken}
@@ -147,8 +148,8 @@ function App() {
             path="/profile"
             element={
               <Layout>
-                {" "}
-                <UserProfile BASE_URL={BASE_URL} token={token} />{" "}
+              
+                <UserProfile BASE_URL={BASE_URL} token={token} />
               </Layout>
             }
           />

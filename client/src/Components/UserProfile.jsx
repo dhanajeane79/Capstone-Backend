@@ -2,8 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 
-function UserProfile({ BASE_URL, token }) {
-  const [user, setUser] = useState(null);
+function UserProfile({ BASE_URL, token, user, setUser }) {
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [updateSuccess, setUpdateSuccess] = useState(false);
@@ -53,7 +52,7 @@ function UserProfile({ BASE_URL, token }) {
   useEffect(() => {
     const fetchUser = async () => {
       if (!token) {
-        setUser(null);
+        // setUser(null);
         return;
       }
 
@@ -67,9 +66,10 @@ function UserProfile({ BASE_URL, token }) {
 
         if (response.ok) {
           const result = await response.json();
-          setUser(result);
+          console.log(result);
+          // setUser(result.user);
         } else {
-          setUser(null);
+          // setUser(null);
         }
       } catch (err) {
         console.error(err);

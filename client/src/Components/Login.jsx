@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import "../CSS-Components/Login-Form.css";
 import { fetchWithHeaders, makeHeaders } from "../Helpers/api";
 
-function Login({ BASE_URL, handleLoginSuccess, token }) {
+function Login({ BASE_URL, handleLoginSuccess, token, user, setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -45,6 +45,7 @@ function Login({ BASE_URL, handleLoginSuccess, token }) {
         const data = await response.json(); // Parse the response data
         console.log("data:", data); // Log the parsed response data
         handleLoginSuccess(data.token); // Assuming the token is directly in the response
+        setUser(data.user);
         localStorage.setItem("authToken", data.token);
         navigate("/products");
       } else {

@@ -5,7 +5,7 @@ async function addToCart(userId, productItemId, quantity) {
   try {
     const { rows } = await client.query(
       `
-      INSERT INTO cart_items (cart_id, product_item_id, quantity)
+      INSERT INTO cart_item (cart_id, product_item_id, quantity)
       VALUES (
         (SELECT id FROM cart WHERE user_id = $1),
         $2,
@@ -27,12 +27,12 @@ async function updateCartItemQuantity(cartItemId, quantity) {
   try {
     const { rows } = await client.query(
       `
-      UPDATE cart_items
+      UPDATE cart_item
       SET quantity = $1
       WHERE id = $2
       RETURNING *;
     `,
-      [quantity, cartItemId]
+      [cartItemId, quantity ]
     );
 
     return rows[0];
@@ -60,9 +60,10 @@ async function removeFromCart(cartItemId) {
 }
 
 // Get user's cart contents
+// Get user's cart contents
 async function getUserCart(userId) {
   try {
-      const { rows } = await client.query(
+    const { rows } = await client.query(
       `
       SELECT cart_item.id, cart_item.quantity, products.name, product_item.item_price
       FROM cart_item
@@ -78,6 +79,7 @@ async function getUserCart(userId) {
     throw error;
   }
 }
+
 
 module.exports = {
   addToCart,

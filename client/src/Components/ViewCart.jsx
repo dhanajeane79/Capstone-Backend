@@ -145,18 +145,17 @@ function ViewCart({BASE_URL, token}) {
       <h1>Your Shopping Cart</h1>
       {errorMessage && <p>{errorMessage}</p>}
       <ul>
-        {cartItems.map((item) => (
-          <li key={item.id}>
-            <div>
-              <h3>{item.product_name}</h3>
-              <p>{item.description}</p>
-              <p>Price: ${item.price}</p>
-              <p>Quantity: {item.quantity}</p>
-              <button onClick={() => handleRemoveFromCart(item.id)}>Remove from Cart</button>
-            </div>
-          </li>
-        ))}
-      </ul>
+  {cartItems.map((item) => (
+    <li key={item.id}>
+      <div>
+        <h3>{item.name}</h3>
+        <p>Price: ${item.item_price}</p>
+        <p>Quantity: {item.quantity}</p>
+        <button onClick={() => handleRemoveFromCart(item.id)}>Remove from Cart</button>
+      </div>
+    </li>
+  ))}
+</ul>
       <button>Checkout</button>
     </div>
   );

@@ -26,7 +26,7 @@ server.use(express.json());
 server.use('/docs', express.static(path.join(__dirname, 'public')));
 
 // Import necessary functions from db/cart.js
-const { addToCart, getUserCart } = require('./db/cart');
+const { getUserCart } = require('./db/cart');
 const jwt = require('jsonwebtoken');
 
 // Middleware to verify JWT token
@@ -46,28 +46,45 @@ function verifyToken(req, res, next) {
   }
 }
 
+server.post('/api/refresh-token', verifyToken, (req, res) => {
+  // Generate a new token with a new expiration time
+  const newToken = generateNewToken(req.user);
+
+  // Send the new token as a response
+  res.json({ token: newToken });
+});
+
+// Token generation function (used during login and refresh)
+function generateNewToken(user) {
+  // Create a new JWT token with a new expiration time
+  const newToken = jwt.sign({ user }, JWT_SECRET, { expiresIn: '1h' });
+
+  return newToken;
+}
+
 // Routes
 server.use('/api/users', require('./api/users'));
 server.use('/api/products', require('./api/products'));
-
+server.use('/api/cart', require('./api/cart')); 
 // POST - Add item to the cart
-server.post('/api/cart/add', verifyToken, async (req, res) => {
-  try {
-    // Extract the user ID, product ID, and quantity from the request body
-    const { userId } = req.user;
-    const { productId, quantity } = req.body;
+// server.post('/api/cart/add', verifyToken, async (req, res) => {
+//   try {
+//     // Extract the user ID, product ID, and quantity from the request body
+//     const { userId } = req.user;
+//     const { productId, quantity } = req.body;
+//     console.log(req.body);
 
-    // Call the addToCart function to add the item to the cart
-    const cartItem = await addToCart(userId, productId, quantity);
+//     // Call the addToCart function to add the item to the cart
+//     const cartItem = await addToCart(userId, productId, quantity);
 
-    // Return a success response with the added cart item
-    res.json({ message: 'Item added to cart successfully', cartItem });
-  } catch (error) {
-    // If there was an error, return an error response
-    console.error('Error adding item to cart:', error);
-    res.status(500).json({ error: 'Failed to add item to cart', message: error.message });
-  }
-});
+//     // Return a success response with the added cart item
+//     res.json({ message: 'Item added to cart successfully', cartItem });
+//   } catch (error) {
+//     // If there was an error, return an error response
+//     console.error('Error adding item to cart:', error);
+//     res.status(500).json({ error: 'Failed to add item to cart', message: error.message });
+//   }
+// });
 
 // GET - Fetch cart items
 server.get('/api/cart/items', verifyToken, async (req, res) => {
