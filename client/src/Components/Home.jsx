@@ -30,15 +30,18 @@ function Home() {
         </p>
       </header>
 
-      <Link to="/products" className="shop-now-button">
+      {/* <Link to="/products" className="shop-now-button">
         <button className="btn btn-primary">Shop Now</button>
-      </Link>
+      </Link> */}
       <div className="category-card-container">
         <section className="top-category-row">
         {categoryCards.map((cardNumber, index) => (
             <div key={cardNumber} className="category-card">
               <img src={categoryImages[index]} alt={`Category ${cardNumber}`} />
               <h3>Category {cardNumber}</h3>
+              <Link to="/products" className="shop-now-button">
+        <button className="btn btn-primary">Shop Now</button>
+      </Link>
               {/* Add other content for the category card */}
             </div>
           ))}
