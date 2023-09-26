@@ -1,3 +1,26 @@
+body {
+display: flex;
+  justify-content: center;
+  background-image: url(https://www.verinadalycare.co.uk/wp-content/uploads/2020/07/20502-1024x683.jpg);
+  background-repeat: no-repeat;
+ width: 100w;
+  position: relative;
+  height: 75vh; /* Set the container's height to 75% of the viewport height */
+  overflow: hidden; 
+  align-content: center;
+
+  
+  
+  background-size: cover; /* Cover the entire container with the background image */
+  background-position: center center; /* Center the background image */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  z-index: -1; /* Place the background behind other content */
+}
+
 .product-categories {
     display: flex;
     flex-wrap: wrap;
