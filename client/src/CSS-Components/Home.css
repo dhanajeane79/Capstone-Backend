@@ -33,26 +33,21 @@ display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     flex-direction: column;
+    
 }
   
 /* Styles for the top category row */
 .top-category-row {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 20%;
     flex-wrap: wrap;
+   
   }
   
-  /* Styles for the bottom category row */
-  .bottom-category-row {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
-  
+
   .category-card {
-    background-color: #f9f9f9;
+    background-color: rgba(51, 51, 51, 0.2);
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
