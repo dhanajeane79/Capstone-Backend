@@ -6,7 +6,7 @@
 // // function ViewCart({ BASE_URL, token }) {
 // //   const [cartItems, setCartItems] = useState([]);
 // //   const [errorMessage, setErrorMessage] = useState("");
-// //   const { removeFromCart } = useContext(CartContext); 
+// //   const { removeFromCart } = useContext(CartContext);
 // //   const [isLoading, setIsLoading] = useState(true); // Define isLoading state
 
 // function ViewCart({ BASE_URL, token }) {
@@ -18,7 +18,7 @@
 //   }
 
 //   useEffect(() => {
-    
+
 //     if (!isLoggedIn()) {
 //       // If the user is not logged in, set an error message
 //       setErrorMessage("You must be logged in to view the cart");
@@ -61,7 +61,6 @@
 //     removeFromCart(cartItemId);
 //   };
 
-
 //   if (isLoading) {
 //     return <p>Loading...</p>;
 //   }
@@ -90,20 +89,19 @@
 
 // export default ViewCart;
 
-
 // import React, {useState, useEffect, useContext} from "react";
 // import {CartContext} from "./CartProvider";
-// import {isLoggedIn} from '../Helpers/authHelpers'; 
+// import {isLoggedIn} from '../Helpers/authHelpers';
 
 // function ViewCart({BASE_URL, token}) {
 //   const {cartItems, setCartItems, removeFromCart} = useContext(CartContext);
 //   const [errorMessage, setErrorMessage] = useState("");
-//   const [isLoading, setIsLoading] = useState(true); 
+//   const [isLoading, setIsLoading] = useState(true);
 
 //   useEffect(() => {
 //     if (!isLoggedIn()) {
 //       setErrorMessage("You must be logged in to view the cart");
-//       setIsLoading(false); 
+//       setIsLoading(false);
 //       return;
 //     }
 
@@ -125,7 +123,7 @@
 //       } catch (error) {
 //         console.error("Error fetching cart items", error);
 //       } finally {
-//         setIsLoading(false); 
+//         setIsLoading(false);
 //       }
 //     }
 
@@ -142,9 +140,9 @@
 
 //   return (
 //     <div >
-      
+
 //       <h1>Your Shopping Cart</h1>
-      
+
 //       {errorMessage && <p>{errorMessage}</p>}
 //       <div className="items-in-cart">
 //       <ul>
@@ -167,12 +165,10 @@
 
 // export default ViewCart;
 
-
 import React, { useState, useEffect, useContext } from "react";
 import { CartContext } from "./CartProvider";
-import { isLoggedIn } from '../Helpers/authHelpers';
-import '../CSS-Components/ViewCart.css'; // Import your CSS file for styling
-
+import { isLoggedIn } from "../Helpers/authHelpers";
+import "../CSS-Components/ViewCart.css"; // Import your CSS file for styling
 
 function ViewCart({ BASE_URL, token }) {
   const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
@@ -197,7 +193,7 @@ function ViewCart({ BASE_URL, token }) {
         if (response.ok) {
           const data = await response.json();
           setCartItems(data);
-          localStorage.setItem('cartItems', JSON.stringify(data));
+          localStorage.setItem("cartItems", JSON.stringify(data));
         } else {
           console.error("Failed to fetch cart items");
         }
@@ -235,7 +231,10 @@ function ViewCart({ BASE_URL, token }) {
                 <p>Price: ${item.item_price}</p>
                 <p>Quantity: {item.quantity}</p>
               </div>
-              <button onClick={() => handleRemoveFromCart(item.id)} className="remove-button">
+              <button
+                onClick={() => handleRemoveFromCart(item.id)}
+                className="remove-button"
+              >
                 Remove from Cart
               </button>
             </li>

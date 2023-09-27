@@ -3,7 +3,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React, { useRef, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import "./index.css";
 import NavBar from "./Components/NavBar";
 import Layout from "./Components/Layout";
@@ -18,8 +17,6 @@ import ViewCart from "./Components/ViewCart";
 import UserProfile from "./Components/UserProfile";
 import CartProvider from "./Components/CartProvider";
 import { Container } from "react-bootstrap";
-
-
 
 function App() {
   const BASE_URL = "http://localhost:4000/api";
@@ -55,15 +52,12 @@ function App() {
           <NavBar isLoggedIn={Boolean(token)} logout={handleLogout} />
         </Container>
         <Routes>
-        <Route
-            path="/"
-            element={
-              <CartProvider> {/* Wrap your app with CartProvider */}
-                <Layout>
-                  {" "}
-                  <Home />{" "}
-                </Layout>
-              </CartProvider>
+  <Route
+    path="/"
+    element={
+      <Layout>
+        <Home />
+      </Layout>
             }
           />
           <Route
@@ -148,7 +142,6 @@ function App() {
             path="/profile"
             element={
               <Layout>
-              
                 <UserProfile BASE_URL={BASE_URL} token={token} />
               </Layout>
             }

@@ -12,19 +12,17 @@ import "../CSS-Components/Products.css";
 import { useNavigate, Link } from "react-router-dom";
 import { CartContext } from "./CartProvider"; // Import your CartContext
 
-
-
 function AllProducts({ BASE_URL, token, user }) {
   const [products, setProducts] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const { addToCart, cart, setCart } = useContext(CartContext); 
+  const { addToCart, cart, setCart } = useContext(CartContext);
 
   // Fetch products when the component mounts
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const headers = {}; 
+        const headers = {};
         if (token) {
           headers.Authorization = `Bearer ${token}`;
         }
@@ -47,43 +45,43 @@ function AllProducts({ BASE_URL, token, user }) {
     fetchProducts();
   }, [BASE_URL, token]);
 
-// Function to handle adding items to the cart
-// Function to handle adding items to the cart
-const handleAddToCart = async (productId) => {
-  if (!token) {
-    localStorage.setItem("logboxMessage", 
-      "You must be logged in to add an item to your cart.");
-    navigate("/login");
-    return;
-  }
-
-  try {
-    console.log(token);
-    console.log(user);
-    addToCart(productId, 1); 
-    
-
-    const response = await fetch(`${BASE_URL}/cart/add`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` // Pass the token here
-      },
-      body: JSON.stringify({ userId: user.id, productId, quantity: 1 })
-
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      setCart(cart.concat(data)); // Append the new item to the cart
-    } else {
-      const { message } = await response.json();
-      console.error(message);
+  // Function to handle adding items to the cart
+  // Function to handle adding items to the cart
+  const handleAddToCart = async (productId) => {
+    if (!token) {
+      localStorage.setItem(
+        "logboxMessage",
+        "You must be logged in to add an item to your cart."
+      );
+      navigate("/login");
+      return;
     }
-  } catch (error) {
-    console.error("Error adding item to cart:", error);
-  }
-};
+
+    try {
+      console.log(token);
+      console.log(user);
+      addToCart(productId, 1);
+
+      const response = await fetch(`${BASE_URL}/cart/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Pass the token here
+        },
+        body: JSON.stringify({ userId: user.id, productId, quantity: 1 }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCart(cart.concat(data)); // Append the new item to the cart
+      } else {
+        const { message } = await response.json();
+        console.error(message);
+      }
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  };
   return (
     <div>
       <h1>All Products</h1>
@@ -122,5 +120,3 @@ const handleAddToCart = async (productId) => {
 }
 
 export default AllProducts;
-
-
