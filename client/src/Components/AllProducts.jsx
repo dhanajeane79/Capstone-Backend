@@ -61,6 +61,8 @@ const handleAddToCart = async (productId) => {
     console.log(token);
     console.log(user);
     addToCart(productId, 1); 
+    
+
     const response = await fetch(`${BASE_URL}/cart/add`, {
       method: 'POST',
       headers: {
