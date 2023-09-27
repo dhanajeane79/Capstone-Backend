@@ -2,7 +2,7 @@
 
 
 .page-content {
-    padding-top: 235px; /* Add padding to create space between content and Navbar */
+    padding-top: 50px; /* Add padding to create space between content and Navbar */
   }
   .page-content {
     min-height: calc(100vh - 100px); /* Adjust 100px to match your footer's height */

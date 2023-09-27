@@ -91,19 +91,96 @@
 // export default ViewCart;
 
 
-import React, {useState, useEffect, useContext} from "react";
-import {CartContext} from "./CartProvider";
-import {isLoggedIn} from '../Helpers/authHelpers'; 
+// import React, {useState, useEffect, useContext} from "react";
+// import {CartContext} from "./CartProvider";
+// import {isLoggedIn} from '../Helpers/authHelpers'; 
 
-function ViewCart({BASE_URL, token}) {
-  const {cartItems, setCartItems, removeFromCart} = useContext(CartContext);
+// function ViewCart({BASE_URL, token}) {
+//   const {cartItems, setCartItems, removeFromCart} = useContext(CartContext);
+//   const [errorMessage, setErrorMessage] = useState("");
+//   const [isLoading, setIsLoading] = useState(true); 
+
+//   useEffect(() => {
+//     if (!isLoggedIn()) {
+//       setErrorMessage("You must be logged in to view the cart");
+//       setIsLoading(false); 
+//       return;
+//     }
+
+//     async function fetchCartItems() {
+//       try {
+//         const response = await fetch(`${BASE_URL}/cart/items`, {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
+
+//         if (response.ok) {
+//           const data = await response.json();
+//           setCartItems(data);
+//           localStorage.setItem('cartItems', JSON.stringify(data));
+//         } else {
+//           console.error("Failed to fetch cart items");
+//         }
+//       } catch (error) {
+//         console.error("Error fetching cart items", error);
+//       } finally {
+//         setIsLoading(false); 
+//       }
+//     }
+
+//     fetchCartItems();
+//   }, [BASE_URL, token, setCartItems]);
+
+//   const handleRemoveFromCart = (cartItemId) => {
+//     removeFromCart(cartItemId);
+//   };
+
+//   if (isLoading) {
+//     return <p>Loading...</p>;
+//   }
+
+//   return (
+//     <div >
+      
+//       <h1>Your Shopping Cart</h1>
+      
+//       {errorMessage && <p>{errorMessage}</p>}
+//       <div className="items-in-cart">
+//       <ul>
+//   {cartItems.map((item) => (
+//     <li key={item.id}>
+//       <div>
+//         <h3>{item.name}</h3>
+//         <p>Price: ${item.item_price}</p>
+//         <p>Quantity: {item.quantity}</p>
+//         <button onClick={() => handleRemoveFromCart(item.id)}>Remove from Cart</button>
+//       </div>
+//     </li>
+//   ))}
+// </ul>
+// </div>
+//       <button>Checkout</button>
+//     </div>
+//   );
+// }
+
+// export default ViewCart;
+
+
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from "./CartProvider";
+import { isLoggedIn } from '../Helpers/authHelpers';
+
+function ViewCart({ BASE_URL, token, history }) {
+  const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!isLoggedIn()) {
       setErrorMessage("You must be logged in to view the cart");
-      setIsLoading(false); 
+      setIsLoading(false);
       return;
     }
 
@@ -125,7 +202,7 @@ function ViewCart({BASE_URL, token}) {
       } catch (error) {
         console.error("Error fetching cart items", error);
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     }
 
@@ -136,6 +213,14 @@ function ViewCart({BASE_URL, token}) {
     removeFromCart(cartItemId);
   };
 
+  const handleCheckout = () => {
+    // You can implement the checkout logic here
+    // For example, send a request to the server to process the order
+
+    // After successful checkout, you can navigate to a thank you page
+    history.push("/thankyou");
+  };
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -144,19 +229,21 @@ function ViewCart({BASE_URL, token}) {
     <div>
       <h1>Your Shopping Cart</h1>
       {errorMessage && <p>{errorMessage}</p>}
-      <ul>
-  {cartItems.map((item) => (
-    <li key={item.id}>
-      <div>
-        <h3>{item.name}</h3>
-        <p>Price: ${item.item_price}</p>
-        <p>Quantity: {item.quantity}</p>
-        <button onClick={() => handleRemoveFromCart(item.id)}>Remove from Cart</button>
+      <div className="items-in-cart">
+        <ul>
+          {cartItems.map((item) => (
+            <li key={item.id}>
+              <div>
+                <h3>{item.name}</h3>
+                <p>Price: ${item.item_price}</p>
+                <p>Quantity: {item.quantity}</p>
+                <button onClick={() => handleRemoveFromCart(item.id)}>Remove from Cart</button>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-    </li>
-  ))}
-</ul>
-      <button>Checkout</button>
+      <button onClick={handleCheckout}>Checkout</button>
     </div>
   );
 }

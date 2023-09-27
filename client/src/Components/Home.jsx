@@ -16,7 +16,7 @@ function Home() {
 
     
     <div className="home-container">
-      <div> className="backGround-image"
+      <div> 
       <header className="home-header">
         <h1>Welcome to Compassionate Care Emporium</h1>
         <p>

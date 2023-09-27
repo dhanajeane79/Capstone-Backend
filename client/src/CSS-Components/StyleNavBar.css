@@ -124,7 +124,7 @@ a {
 
 .container {
     padding: 10px;
-    border: 1px solid #ddd;
+   
     margin-bottom: 0px;
 }
 
@@ -167,4 +167,9 @@ justify-content: space-between;
 .bottom-nav-link-container {
     padding-top: 10px;
 
+}
+
+.bg-body-tertiary {
+    --bs-bg-opacity: 0;
+    
 }

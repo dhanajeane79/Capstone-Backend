@@ -45,8 +45,12 @@ function NavBar({ isLoggedIn, logout }) {
             <Link to="/contact" className="nav-link">
               Contact Us
             </Link>
+            <Link to="/products" className="nav-link">
+                All Products
+              </Link>
           </Nav>
         </Navbar.Collapse>
+        
         <Form>
           <Row>
             <Col xs="auto">
@@ -61,10 +65,29 @@ function NavBar({ isLoggedIn, logout }) {
             </Col>
           </Row>
         </Form>
+        <Nav className="ms-auto align-items-end">
+            <Link to="/cart" className="nav-link">
+                Cart ({cartItems?.length || 0})
+              </Link>
+              <Link to="/register" className="nav-link">
+                Register
+              </Link>
+              {!isLoggedIn ? (
+                <Link to="/login" className="nav-link">
+                  Login
+                </Link>
+              ) : (
+                <li className="navbar-item">
+                  <button onClick={logout}>Logout</button>
+                </li>
+              )}
+            </Nav>
+
+
       </Navbar>
 
       {/* Second Navbar (Bottom Navbar) */}
-      <div className="middle-nav-container">
+      {/* <div className="middle-nav-container">
         <Navbar expand="lg" className="middle-nav">
           <Navbar.Brand>
             <img
@@ -97,9 +120,9 @@ function NavBar({ isLoggedIn, logout }) {
             </Nav>
           </div>
         </Navbar>
-      </div>
+      </div> */}
 
-      <div className="bottom-nav-container">
+      {/* <div className="bottom-nav-container">
         <Navbar expand="lg" className="bottom-nav">
           <div className="bottom-nav-link-container">
             <Nav className="me-auto">
@@ -118,7 +141,7 @@ function NavBar({ isLoggedIn, logout }) {
             </Nav>
           </div>
         </Navbar>
-      </div>
+      </div> */}
     </div>
   );
 }
