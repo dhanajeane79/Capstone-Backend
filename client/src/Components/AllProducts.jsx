@@ -16,7 +16,7 @@ function AllProducts({ BASE_URL, token, user }) {
   const [products, setProducts] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const { addToCart, cart, setCart } = useContext(CartContext);
+  const { addToCart, setCart } = useContext(CartContext);
 
   // Fetch products when the component mounts
   useEffect(() => {
@@ -56,24 +56,32 @@ function AllProducts({ BASE_URL, token, user }) {
       navigate("/login");
       return;
     }
-
+  
     try {
       console.log(token);
       console.log(user);
-      addToCart(productId, 1);
-
+  
+      // Check if the user object is valid
+      if (!user || !user.id) {
+        // Handle the case when the user is not properly authenticated
+        console.error("User is not properly authenticated.");
+        return;
+      }
+  
+      addToCart( productId, 1);
+  
       const response = await fetch(`${BASE_URL}/cart/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Pass the token here
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ userId: user.id, productId, quantity: 1 }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
-        setCart(cart.concat(data)); // Append the new item to the cart
+        setCart((prevCart) => [...prevCart, data]);
       } else {
         const { message } = await response.json();
         console.error(message);

@@ -52,7 +52,7 @@ function UserProfile({ BASE_URL, token, user, setUser }) {
   useEffect(() => {
     const fetchUser = async () => {
       if (!token) {
-        // setUser(null);
+        setUser(null);
         return;
       }
 
@@ -67,9 +67,9 @@ function UserProfile({ BASE_URL, token, user, setUser }) {
         if (response.ok) {
           const result = await response.json();
           console.log(result);
-          // setUser(result.user);
+          setUser(result.user);
         } else {
-          // setUser(null);
+          setUser(null);
         }
       } catch (err) {
         console.error(err);

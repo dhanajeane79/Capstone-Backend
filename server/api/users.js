@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { createUser, getAllUsers, getUserById, getUserByEmail, getUser} = require('../db');
 const { requireUser } = require('./utils');
-const { JWT_SECRET = 'neverTell' } = process.env;
+const { JWT_SECRET = '7367f6c194a2982ebc00c571dc2158598e652b2bf44096cc5c0ec887d1ab02b4' } = process.env;
 
 // const { getAllUsers,
 //     getUserById,

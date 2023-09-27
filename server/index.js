@@ -1,12 +1,13 @@
 
+// Import necessary modules and setup
+
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { requireUser } = require('./api/utils');
-const { PORT = 4000, JWT_SECRET = 'neverTell' } = process.env;
-
+const { PORT = 4000, JWT_SECRET = 'neverTell', REFRESH_TOKEN_SECRET = 'refreshSecret' } = process.env;
 
 require('dotenv').config();
 
@@ -22,7 +23,7 @@ server.use(bodyParser.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 
-// Serve static files 
+// Serve static files
 server.use('/docs', express.static(path.join(__dirname, 'public')));
 
 // Import necessary functions from db/cart.js
@@ -46,14 +47,6 @@ function verifyToken(req, res, next) {
   }
 }
 
-server.post('/api/refresh-token', verifyToken, (req, res) => {
-  // Generate a new token with a new expiration time
-  const newToken = generateNewToken(req.user);
-
-  // Send the new token as a response
-  res.json({ token: newToken });
-});
-
 // Token generation function (used during login and refresh)
 function generateNewToken(user) {
   // Create a new JWT token with a new expiration time
@@ -62,47 +55,57 @@ function generateNewToken(user) {
   return newToken;
 }
 
+// Function to generate a new access token and a refresh token
+function generateNewTokens(user) {
+  // Create a new access token with a short expiration time (1 hour)
+  const accessToken = generateNewToken(user);
+
+  // Create a new refresh token with a longer expiration time (7 days)
+  const refreshToken = jwt.sign({ user }, REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+
+  return { accessToken, refreshToken };
+}
+
+// POST - Refresh access token using refresh token
+server.post('/api/refresh-token', (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    // Verify the refresh token
+    const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+    const user = decoded.user;
+
+    // Generate a new access token
+    const newAccessToken = generateNewTokens(user);
+
+    // Send the new access token as a response
+    res.json({ accessToken: newAccessToken });
+  } catch (error) {
+    return res.status(401).json({ message: 'Token is not valid' });
+  }
+});
+
+server.get('/user/me', verifyToken, async (req, res) => {
+  try {
+    // Access the user information from the decoded token
+    const user = req.user;
+
+    // Return the user information as a JSON response
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching user information:', error);
+    res.status(500).json({ error: 'Failed to fetch user information', message: error.message });
+  }
+});
+
 // Routes
 server.use('/api/users', require('./api/users'));
 server.use('/api/products', require('./api/products'));
-server.use('/api/cart', require('./api/cart')); 
-// POST - Add item to the cart
-// server.post('/api/cart/add', verifyToken, async (req, res) => {
-//   try {
-//     // Extract the user ID, product ID, and quantity from the request body
-//     const { userId } = req.user;
-//     const { productId, quantity } = req.body;
-//     console.log(req.body);
-
-//     // Call the addToCart function to add the item to the cart
-//     const cartItem = await addToCart(userId, productId, quantity);
-
-//     // Return a success response with the added cart item
-//     res.json({ message: 'Item added to cart successfully', cartItem });
-//   } catch (error) {
-//     // If there was an error, return an error response
-//     console.error('Error adding item to cart:', error);
-//     res.status(500).json({ error: 'Failed to add item to cart', message: error.message });
-//   }
-// });
-
-// GET - Fetch cart items
-server.get('/api/cart/items', verifyToken, async (req, res) => {
-  try {
-    // Extract the user ID from the request object
-    const { userId } = req.user;
-
-    // Call the getUserCart function to fetch the user's cart items
-    const cartItems = await getUserCart(userId);
-
-    // Return the cart items as a JSON response
-    res.json(cartItems);
-  } catch (error) {
-    // If there was an error, return an error response
-    console.error('Error fetching cart items:', error);
-    res.status(500).json({ error: 'Failed to fetch cart items', message: error.message });
-  }
-});
+server.use('/api/cart', require('./api/cart'));
 
 // Root route
 server.get('/', (req, res) => {
@@ -125,7 +128,6 @@ server.use((error, req, res, next) => {
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
-
 
 // }
 // );

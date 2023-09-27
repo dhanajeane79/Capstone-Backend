@@ -1,3 +1,100 @@
+
+
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from "./CartProvider";
+import { isLoggedIn } from "../Helpers/authHelpers";
+import "../CSS-Components/ViewCart.css"; // Import your CSS file for styling
+
+function ViewCart({ BASE_URL, token }) {
+  const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      setErrorMessage("You must be logged in to view the cart");
+      setIsLoading(false);
+      return;
+    }
+
+    async function fetchCartItems() {
+      try {
+        console.log("Fetching cart items with token:", token);
+
+        const response = await fetch(`${BASE_URL}/cart/items`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Fetched cart items:", data);
+          setCartItems(data);
+          localStorage.setItem("cartItems", JSON.stringify(data));
+        } else {
+          console.error("Failed to fetch cart items");
+          setErrorMessage("Failed to fetch cart items");
+        }
+      } catch (error) {
+        console.error("Error fetching cart items", error);
+        setErrorMessage("An error occurred while fetching cart items");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchCartItems();
+  }, [BASE_URL, token, setCartItems]);
+
+  const handleRemoveFromCart = (cartItemId) => {
+    removeFromCart(cartItemId);
+  };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  return (
+    <div className="cart-container">
+      <h1>Your Shopping Cart</h1>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <div className="items-in-cart">
+        <ul className="cart-list">
+          {cart.map((item) => (
+            <li key={item.id} className="cart-item">
+              <div className="product-image">
+                <img src={item.smallImage} alt={`Product ${item.id}`} />
+              </div>
+              <div className="product-details">
+                <h3>{item.name}</h3>
+                <p>Price: ${item.item_price}</p>
+                <p>Quantity: {item.quantity}</p>
+              </div>
+              <button
+            onClick={() => {
+              console.log("Item ID:", item.id); // Add this line
+              handleRemoveFromCart(item.id);
+            }}
+                className="remove-button"
+              >
+                Remove from Cart
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <button className="checkout-button">Checkout</button>
+    </div>
+  );
+}
+
+export default ViewCart;
+
+
+
+
+
 /* eslint-disable no-unused-vars */
 // import React, { useState, useEffect, useContext } from "react";
 // import { CartContext } from "./CartProvider";
@@ -164,86 +261,3 @@
 // }
 
 // export default ViewCart;
-
-import React, { useState, useEffect, useContext } from "react";
-import { CartContext } from "./CartProvider";
-import { isLoggedIn } from "../Helpers/authHelpers";
-import "../CSS-Components/ViewCart.css"; // Import your CSS file for styling
-
-function ViewCart({ BASE_URL, token }) {
-  const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (!isLoggedIn()) {
-      setErrorMessage("You must be logged in to view the cart");
-      setIsLoading(false);
-      return;
-    }
-
-    async function fetchCartItems() {
-      try {
-        const response = await fetch(`${BASE_URL}/cart/items`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setCartItems(data);
-          localStorage.setItem("cartItems", JSON.stringify(data));
-        } else {
-          console.error("Failed to fetch cart items");
-        }
-      } catch (error) {
-        console.error("Error fetching cart items", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchCartItems();
-  }, [BASE_URL, token, setCartItems]);
-
-  const handleRemoveFromCart = (cartItemId) => {
-    removeFromCart(cartItemId);
-  };
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  return (
-    <div className="cart-container">
-      <h1>Your Shopping Cart</h1>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <div className="items-in-cart">
-        <ul className="cart-list">
-          {cartItems.map((item) => (
-            <li key={item.id} className="cart-item">
-              <div className="product-image">
-                <img src={item.smallImage} alt={`Product ${item.id}`} />
-              </div>
-              <div className="product-details">
-                <h3>{item.name}</h3>
-                <p>Price: ${item.item_price}</p>
-                <p>Quantity: {item.quantity}</p>
-              </div>
-              <button
-                onClick={() => handleRemoveFromCart(item.id)}
-                className="remove-button"
-              >
-                Remove from Cart
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <button className="checkout-button">Checkout</button>
-    </div>
-  );
-}
-
-export default ViewCart;
