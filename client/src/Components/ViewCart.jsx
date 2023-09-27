@@ -171,8 +171,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CartContext } from "./CartProvider";
 import { isLoggedIn } from '../Helpers/authHelpers';
+import '../CSS-Components/ViewCart.css'; // Import your CSS file for styling
 
-function ViewCart({ BASE_URL, token, history }) {
+
+function ViewCart({ BASE_URL, token }) {
   const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -213,37 +215,34 @@ function ViewCart({ BASE_URL, token, history }) {
     removeFromCart(cartItemId);
   };
 
-  const handleCheckout = () => {
-    // You can implement the checkout logic here
-    // For example, send a request to the server to process the order
-
-    // After successful checkout, you can navigate to a thank you page
-    history.push("/thankyou");
-  };
-
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
   return (
-    <div>
+    <div className="cart-container">
       <h1>Your Shopping Cart</h1>
-      {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="items-in-cart">
-        <ul>
+        <ul className="cart-list">
           {cartItems.map((item) => (
-            <li key={item.id}>
-              <div>
+            <li key={item.id} className="cart-item">
+              <div className="product-image">
+                <img src={item.smallImage} alt={`Product ${item.id}`} />
+              </div>
+              <div className="product-details">
                 <h3>{item.name}</h3>
                 <p>Price: ${item.item_price}</p>
                 <p>Quantity: {item.quantity}</p>
-                <button onClick={() => handleRemoveFromCart(item.id)}>Remove from Cart</button>
               </div>
+              <button onClick={() => handleRemoveFromCart(item.id)} className="remove-button">
+                Remove from Cart
+              </button>
             </li>
           ))}
         </ul>
       </div>
-      <button onClick={handleCheckout}>Checkout</button>
+      <button className="checkout-button">Checkout</button>
     </div>
   );
 }
