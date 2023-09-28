@@ -16,6 +16,7 @@ import OrderStatus from "./Components/OrderStatus";
 import ContactUs from "./Components/ContactUs";
 import ViewCart from "./Components/ViewCart";
 import UserProfile from "./Components/UserProfile";
+import HavingSomeFun from "./Components/HavingSomeFun";
 import Checkout from "./Components/Checkout";
 import CartProvider from "./Components/CartProvider";
 import { Container } from "react-bootstrap";
@@ -113,6 +114,16 @@ function App() {
               <Layout>
                 {" "}
                 <ProductItem user={user} BASE_URL={BASE_URL} token={token} />
+              </Layout>
+            }
+          />
+
+          <Route
+            path="/having-some-fun"
+            element={
+              <Layout>
+                {" "}
+                <HavingSomeFun user={user} BASE_URL={BASE_URL} token={token} />
               </Layout>
             }
           />

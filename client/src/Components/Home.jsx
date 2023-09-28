@@ -6,7 +6,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../CSS-Components/Home.css";
 function Home() {
-  const categoryCards = Array.from({ length: 3 }, (_, index) => index + 1); 
+  const categoryCards = Array.from({ length: 3 }, (_, index) => index + 1);
   const categoryTitles = ["Have some fun", "Spa Day", "Make Memories"];
   const categoryImages = [
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvi8IHLcBdwcSuBtYnUl4YvfvnogtUmUmuxQ&usqp=CAU",
@@ -16,11 +16,15 @@ function Home() {
   return (
     <div className="home-container">
       <header className="home-header">
-      <div class="welcome-container">
-        <h1>Welcome to Life's Little Moments</h1>
-        <p>
-        Caregiving is a journey of love, compassion, and selflessness. It's about being there when it matters the most, offering a helping hand, and providing unwavering support to the ones we hold dear. As caregivers, we understand the profound impact of our role – it's not just about tending to physical needs, but also nourishing the soul.
-        </p>
+        <div class="welcome-container">
+          <h1>Welcome to Life's Little Moments</h1>
+          <p>
+            Caregiving is a journey of love, compassion, and selflessness. It's
+            about being there when it matters the most, offering a helping hand,
+            and providing unwavering support to the ones we hold dear. As
+            caregivers, we understand the profound impact of our role – it's not
+            just about tending to physical needs, but also nourishing the soul.
+          </p>
         </div>
       </header>
 
@@ -30,9 +34,10 @@ function Home() {
             <div key={index} className="category-card">
               <img src={categoryImage} alt={`Category ${index + 1}`} />
               <h3>{categoryTitles[index]}</h3>
-              <Link to="/products" className="shop-now-button">
+              <Link to="/having-some-fun" className="shop-now-button">
                 <button className="btn btn-primary">Shop Now</button>
               </Link>
+
               {/* Add other content for the category card */}
             </div>
           ))}
@@ -43,9 +48,3 @@ function Home() {
 }
 
 export default Home;
-
-
-
-
-
-

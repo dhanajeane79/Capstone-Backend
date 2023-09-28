@@ -73,26 +73,31 @@ function ViewCart({ BASE_URL, token }) {
           <h1>Your Shopping Cart</h1>
           {errorMessage && <p className="text-danger">{errorMessage}</p>}
           <ListGroup>
-            {Object.values(cartItems).map((item) => (
-              <ListGroupItem key={item.productId}>
-                <Row className="align-items-center">
-                  <Col xs={2}>
-                    <Image src={item.smallImage} rounded alt={`Product ${item.id}`} />
-                  </Col>
-                  <Col xs={6}>
-                    <h3>{item.name}</h3>
-                    <p>Price: item.item_price</p>
-                  </Col>
-                  <Col xs={2}>
-                    <p>Quantity: {item.quantity}</p>
-                  </Col>
-                  <Col xs={2}>
-                    <Button 
-                      variant="danger" 
-                      onClick={() => {
-                        console.log("Item ID:", item.productId);
-                        handleRemoveFromCart(item.productId);
-                      }}>Remove from Cart</Button>
+          {Object.values(cartItems).map((item) => (
+            <ListGroupItem key={item.productId}>
+              <Row className="align-items-center">
+                <Col xs={2}>
+                  <Image src={item.smallImage} rounded alt={`Product ${item.id}`} />
+                </Col>
+                <Col xs={6}>
+                  <div className="product-details">
+                    
+                    <h2 className="product-name">{item.name}</h2>
+                    <p className="product-description">{item.description}</p>
+                    <p className="product-price">`${item.item_price}`</p>
+                  </div>
+                  
+                </Col>
+                <Col xs={2}>
+                  <p>Quantity: {item.quantity}</p>
+                </Col>
+                <Col xs={2}>
+                  <Button 
+                    variant="danger" 
+                    onClick={() => {
+                      console.log("Item ID:", item.productId);
+                      handleRemoveFromCart(item.productId);
+                    }}>Remove from Cart</Button>
                   </Col>
                 </Row>
               </ListGroupItem>
