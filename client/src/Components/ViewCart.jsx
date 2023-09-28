@@ -61,8 +61,15 @@ function ViewCart({ BASE_URL, token }) {
       <ul className="cart-list">
   {Object.values(cartItems).map((item) => (
     <li key={item.productId} className="cart-item">
-      {/* ... */}
-      <button
+              <div className="product-image">
+                <img src={item.smallImage} alt={`Product ${item.id}`} />
+              </div>
+              <div className="product-details">
+                <h3>{item.name}</h3>
+                <p>Price: ${item.item_price}</p>
+                <p>Quantity: {item.quantity}</p>
+              </div>
+              <button
         onClick={() => {
           console.log("Item ID:", item.productId);
           handleRemoveFromCart(item.productId);
