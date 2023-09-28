@@ -41,7 +41,7 @@ display: flex;
 .top-category-row {
     display: flex;
     justify-content: space-between;
-    margin-top: 20%;
+    margin-top: 30%;
     flex-wrap: wrap;
    
   }
