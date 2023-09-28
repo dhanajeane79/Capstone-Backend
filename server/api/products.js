@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../db/products');
+const { client } = require("../db/client");
 
 // GET - /api/products - get all products
 router.get('/', async (req, res, next) => {
@@ -52,7 +53,39 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
+router.get("/:productId", async (req, res) => {
+  const { productId } = req.params;
+
+  try {
+    // Query the database to fetch the product by its ID
+    const query = `
+      SELECT p.id, p.name, p.description, pi.product_image, pi.item_price
+      FROM products p
+      JOIN product_item pi ON p.id = pi.product_id
+      WHERE p.id = $1;
+    `;
+    const values = [productId];
+    const { rows } = await client.query(query, values);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    const product = rows[0];
+    res.json(product);
+  } catch (error) {
+    console.error("Error fetching product by ID:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+
 module.exports = router;
+
+
+
+
 
 
 // GET - /api/products - get all products

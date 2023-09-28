@@ -71,4 +71,7 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
+// Define a route to get a single product by ID
+
+
 module.exports = router;

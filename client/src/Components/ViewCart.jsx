@@ -11,7 +11,6 @@ function ViewCart({ BASE_URL, token }) {
   const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
- 
 
   useEffect(() => {
     console.log("Token:", token);
@@ -66,6 +65,7 @@ function ViewCart({ BASE_URL, token }) {
     // Implement order placement logic here using the order object
     console.log('Placing the order:', order);
   };
+  
   return (
     <Container className="cart-container">
       <Row>
@@ -81,9 +81,9 @@ function ViewCart({ BASE_URL, token }) {
                   </Col>
                   <Col xs={6}>
                     <h3>{item.name}</h3>
+                    <p>Price: ${item.item_price}</p>
                   </Col>
                   <Col xs={2}>
-                    <p>Price: ${item.item_price}</p>
                     <p>Quantity: {item.quantity}</p>
                   </Col>
                   <Col xs={2}>
@@ -112,7 +112,7 @@ function ViewCart({ BASE_URL, token }) {
       </Row>
     </Container>
   );
-  }
+}
 
 export default ViewCart;
 

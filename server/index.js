@@ -110,6 +110,8 @@ server.get('/user/me', verifyToken, async (req, res) => {
   }
 });
 
+
+
 server.get('/api/cart/items', verifyToken, async (req, res) => {
   try {
     // Retrieve cart items for the authenticated user
