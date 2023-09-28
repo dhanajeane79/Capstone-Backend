@@ -3,17 +3,39 @@ const client = require('./client');
 // Add item to the cart
 async function addToCart(userId, productItemId, quantity) {
   try {
+    // Find the user's cart or create a new one if it doesn't exist
+    const { rows: userCartRows } = await client.query(
+      `
+      SELECT id FROM cart WHERE user_id = $1;
+      `,
+      [userId]
+    );
+
+    let cartId;
+
+    if (userCartRows.length === 0) {
+      // Create a new cart for the user
+      const { rows: newCartRows } = await client.query(
+        `
+        INSERT INTO cart (user_id)
+        VALUES ($1)
+        RETURNING id;
+        `,
+        [userId]
+      );
+      cartId = newCartRows[0].id;
+    } else {
+      cartId = userCartRows[0].id;
+    }
+
+    // Insert the item into the user's cart
     const { rows } = await client.query(
       `
       INSERT INTO cart_item (cart_id, product_item_id, quantity)
-      VALUES (
-        (SELECT id FROM cart WHERE user_id = $1),
-        $2,
-        $3
-      )
+      VALUES ($1, $2, $3)
       RETURNING *;
-    `,
-      [userId, productItemId, quantity]
+      `,
+      [cartId, productItemId, quantity]
     );
 
     return rows[0];

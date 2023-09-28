@@ -9,6 +9,8 @@ function ViewCart({ BASE_URL, token }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log("Token:", token);
+    
     if (!isLoggedIn()) {
       setErrorMessage("You must be logged in to view the cart");
       setIsLoading(false);
@@ -16,6 +18,8 @@ function ViewCart({ BASE_URL, token }) {
     }
 
     async function fetchCartItems() {
+      console.log("Token:", token);
+      
       try {
         console.log("Fetching cart items with token:", token);
 

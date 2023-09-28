@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { requireUser } = require('./api/utils');
-const { PORT = 4000, JWT_SECRET = 'neverTell', REFRESH_TOKEN_SECRET = 'refreshSecret' } = process.env;
+const { PORT = 4000, JWT_SECRET = '7367f6c194a2982ebc00c571dc2158598e652b2bf44096cc5c0ec887d1ab02b4', REFRESH_TOKEN_SECRET = 'refreshSecret' } = process.env;
 
 require('dotenv').config();
 
@@ -99,6 +99,19 @@ server.get('/user/me', verifyToken, async (req, res) => {
   } catch (error) {
     console.error('Error fetching user information:', error);
     res.status(500).json({ error: 'Failed to fetch user information', message: error.message });
+  }
+});
+
+server.get('/api/cart/items', verifyToken, async (req, res) => {
+  try {
+    // Retrieve cart items for the authenticated user
+    const userId = req.user.id;
+    console.log("User Information:", user);
+    const cartItems = await getUserCart(userId);
+    res.json(cartItems);
+  } catch (error) {
+    console.error('Error fetching cart items:', error);
+    res.status(500).json({ error: 'Failed to fetch cart items', message: error.message });
   }
 });
 
