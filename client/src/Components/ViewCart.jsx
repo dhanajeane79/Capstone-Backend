@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { CartContext } from "./CartProvider";
 import { isLoggedIn } from "../Helpers/authHelpers";
 import "../CSS-Components/ViewCart.css"; // Import your CSS file for styling
+import Checkout from '../Components/Checkout';
 
 function ViewCart({ BASE_URL, token }) {
   const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
-  const [itemQuantities, setItemQuantities] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -57,14 +57,11 @@ function ViewCart({ BASE_URL, token }) {
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
-  // Define a function to handle order placement
+  
   const handlePlaceOrder = (order) => {
-    // Implement order placement logic here
-    console.log('Order placed:', order);
-    // Optionally, you can clear the cart or perform other actions here
+    // Implement order placement logic here using the order object
+    console.log('Placing the order:', order);
   };
-
 
   return (
     <div className="cart-container">
@@ -95,14 +92,15 @@ function ViewCart({ BASE_URL, token }) {
   ))}
 </ul>
       </div>
-      <button className="checkout-button">Checkout</button>
-      <Checkout onPlaceOrder={handlePlaceOrder} />
+      <button className="checkout-button" onClick={() => handlePlaceOrder()}>
+  Checkout
+</button>
+<Checkout onPlaceOrder={handlePlaceOrder} />
     </div>
   );
 }
 
 export default ViewCart;
-
 
 
 

@@ -107,7 +107,7 @@ function App() {
             }
           />
           <Route
-            path="/cart/"
+            path="/cart"
             element={
               <Layout>
                 {" "}
@@ -115,18 +115,7 @@ function App() {
               </Layout>
             }
           />
-
-
-          <Route
-            path="/checkout/"
-            element={
-              <Layout>
-                {" "}
-                <Checkout BASE_URL={BASE_URL} token={token} />
-              </Layout>
-            }
-          />
-
+          
           <Route
             path="/register"
             element={
