@@ -17,6 +17,8 @@ import { CartContext } from "./CartProvider";
 function NavBar({ isLoggedIn, logout }) {
   const { cartItems } = useContext(CartContext);
 
+  
+
   // Use local state to manage the cart item count
   const [cartItemCount, setCartItemCount] = useState(cartItems.length || 0);
 

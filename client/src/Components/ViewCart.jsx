@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CartContext } from "./CartProvider";
 import { isLoggedIn } from "../Helpers/authHelpers";
-import "../CSS-Components/ViewCart.css"; // Import your CSS file for styling
+import { Link } from 'react-router-dom';
+
+import '../CSS-Components/ViewCart.css';
 import Checkout from '../Components/Checkout';
+import { Container, Row, Col, ListGroup, ListGroupItem, Image, Button } from 'react-bootstrap';
 
 function ViewCart({ BASE_URL, token }) {
   const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+ 
 
   useEffect(() => {
     console.log("Token:", token);
@@ -62,43 +66,56 @@ function ViewCart({ BASE_URL, token }) {
     // Implement order placement logic here using the order object
     console.log('Placing the order:', order);
   };
-
   return (
-    <div className="cart-container">
-      <h1>Your Shopping Cart</h1>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <div className="items-in-cart">
-      <ul className="cart-list">
-  {Object.values(cartItems).map((item) => (
-    <li key={item.productId} className="cart-item">
-              <div className="product-image">
-                <img src={item.smallImage} alt={`Product ${item.id}`} />
-              </div>
-              <div className="product-details">
-                <h3>{item.name}</h3>
-                <p>Price: ${item.item_price}</p>
-                <p>Quantity: {item.quantity}</p>
-              </div>
-              <button
-        onClick={() => {
-          console.log("Item ID:", item.productId);
-          handleRemoveFromCart(item.productId);
-        }}
-        className="remove-button"
-      >
-        Remove from Cart
-      </button>
-    </li>
-  ))}
-</ul>
-      </div>
-      <button className="checkout-button" onClick={() => handlePlaceOrder()}>
-  Checkout
-</button>
-<Checkout onPlaceOrder={handlePlaceOrder} />
-    </div>
+    <Container className="cart-container">
+      <Row>
+        <Col>
+          <h1>Your Shopping Cart</h1>
+          {errorMessage && <p className="text-danger">{errorMessage}</p>}
+          <ListGroup>
+            {Object.values(cartItems).map((item) => (
+              <ListGroupItem key={item.productId}>
+                <Row className="align-items-center">
+                  <Col xs={2}>
+                    <Image src={item.smallImage} rounded alt={`Product ${item.id}`} />
+                  </Col>
+                  <Col xs={6}>
+                    <h3>{item.name}</h3>
+                  </Col>
+                  <Col xs={2}>
+                    <p>Price: ${item.item_price}</p>
+                    <p>Quantity: {item.quantity}</p>
+                  </Col>
+                  <Col xs={2}>
+                    <Button 
+                      variant="danger" 
+                      onClick={() => {
+                        console.log("Item ID:", item.productId);
+                        handleRemoveFromCart(item.productId);
+                      }}>Remove from Cart</Button>
+                  </Col>
+                </Row>
+              </ListGroupItem>
+            ))}
+          </ListGroup>
+          <div className="checkout-buttons">
+            <Link to="/products" className="btn btn-secondary">
+              Continue Shopping
+            </Link>
+            <Button className="checkout-button mt-3" onClick={() => handlePlaceOrder()} variant="success">
+              Checkout
+            </Button>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Checkout onPlaceOrder={handlePlaceOrder} />
+        </Col>
+      </Row>
+    </Container>
   );
-}
+  }
 
 export default ViewCart;
 
