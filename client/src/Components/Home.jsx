@@ -16,10 +16,12 @@ function Home() {
   return (
     <div className="home-container">
       <header className="home-header">
+      <div class="welcome-container">
         <h1>Welcome to Life's Little Moments</h1>
         <p>
         Caregiving is a journey of love, compassion, and selflessness. It's about being there when it matters the most, offering a helping hand, and providing unwavering support to the ones we hold dear. As caregivers, we understand the profound impact of our role – it's not just about tending to physical needs, but also nourishing the soul.
         </p>
+        </div>
       </header>
 
       <div className="category-card-container">
