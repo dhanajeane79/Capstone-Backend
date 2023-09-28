@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useContext } from "react";
 import { CartContext } from "./CartProvider";
 import { isLoggedIn } from "../Helpers/authHelpers";
@@ -60,29 +58,22 @@ function ViewCart({ BASE_URL, token }) {
       <h1>Your Shopping Cart</h1>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="items-in-cart">
-        <ul className="cart-list">
-          {cart.map((item) => (
-            <li key={item.id} className="cart-item">
-              <div className="product-image">
-                <img src={item.smallImage} alt={`Product ${item.id}`} />
-              </div>
-              <div className="product-details">
-                <h3>{item.name}</h3>
-                <p>Price: ${item.item_price}</p>
-                <p>Quantity: {item.quantity}</p>
-              </div>
-              <button
-            onClick={() => {
-              console.log("Item ID:", item.id); // Add this line
-              handleRemoveFromCart(item.id);
-            }}
-                className="remove-button"
-              >
-                Remove from Cart
-              </button>
-            </li>
-          ))}
-        </ul>
+      <ul className="cart-list">
+  {Object.values(cartItems).map((item) => (
+    <li key={item.productId} className="cart-item">
+      {/* ... */}
+      <button
+        onClick={() => {
+          console.log("Item ID:", item.productId);
+          handleRemoveFromCart(item.productId);
+        }}
+        className="remove-button"
+      >
+        Remove from Cart
+      </button>
+    </li>
+  ))}
+</ul>
       </div>
       <button className="checkout-button">Checkout</button>
     </div>
