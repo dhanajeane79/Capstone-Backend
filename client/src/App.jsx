@@ -15,6 +15,7 @@ import OrderStatus from "./Components/OrderStatus";
 import ContactUs from "./Components/ContactUs";
 import ViewCart from "./Components/ViewCart";
 import UserProfile from "./Components/UserProfile";
+import Checkout from './Components/Checkout'; 
 import CartProvider from "./Components/CartProvider";
 import { Container } from "react-bootstrap";
 
@@ -114,6 +115,18 @@ function App() {
               </Layout>
             }
           />
+
+
+          <Route
+            path="/checkout/"
+            element={
+              <Layout>
+                {" "}
+                <Checkout BASE_URL={BASE_URL} token={token} />
+              </Layout>
+            }
+          />
+
           <Route
             path="/register"
             element={

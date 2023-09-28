@@ -5,6 +5,7 @@ import "../CSS-Components/ViewCart.css"; // Import your CSS file for styling
 
 function ViewCart({ BASE_URL, token }) {
   const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
+  const [itemQuantities, setItemQuantities] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -57,6 +58,14 @@ function ViewCart({ BASE_URL, token }) {
     return <p>Loading...</p>;
   }
 
+  // Define a function to handle order placement
+  const handlePlaceOrder = (order) => {
+    // Implement order placement logic here
+    console.log('Order placed:', order);
+    // Optionally, you can clear the cart or perform other actions here
+  };
+
+
   return (
     <div className="cart-container">
       <h1>Your Shopping Cart</h1>
@@ -87,6 +96,7 @@ function ViewCart({ BASE_URL, token }) {
 </ul>
       </div>
       <button className="checkout-button">Checkout</button>
+      <Checkout onPlaceOrder={handlePlaceOrder} />
     </div>
   );
 }
