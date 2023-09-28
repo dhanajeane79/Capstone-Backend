@@ -5,6 +5,9 @@ const { getUserById } = require('../db');
 const client = require('../db/client');
 const { JWT_SECRET = '7367f6c194a2982ebc00c571dc2158598e652b2bf44096cc5c0ec887d1ab02b4' } = process.env;
 
+console.log('JWT_SECRET:', JWT_SECRET);
+console.log('REFRESH_TOKEN_SECRET:', REFRESH_TOKEN_SECRET);
+
 // GET /api/health
 router.get('/health', async (req, res, next) => {
   try {

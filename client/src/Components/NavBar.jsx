@@ -1,12 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Button, Container, Navbar, Modal } from "react-bootstrap";
-// import Button from "react-bootstrap/Button";
-// import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
-// import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
@@ -16,16 +13,30 @@ import "../CSS-Components/StyleNavBar.css";
 import overlayImage from "../assets/Logo7.png";
 import { CartContext } from "./CartProvider";
 
+
 function NavBar({ isLoggedIn, logout }) {
   const { cartItems } = useContext(CartContext);
 
-  // Define a variable to check if the cart link was clicked
-  let cartLinkClicked = false;
+  // Use local state to manage the cart item count
+  const [cartItemCount, setCartItemCount] = useState(cartItems.length || 0);
 
-  // Function to handle the cart link click
+  // Effect to update the cart item count whenever the cartItems context changes
+  useEffect(() => {
+    setCartItemCount(cartItems.length || 0);
+  }, [cartItems]);
+
+  // Effect to persist the cart item count in localStorage
+  useEffect(() => {
+    localStorage.setItem("cartItemCount", cartItemCount);
+  }, [cartItemCount]);
+
   const handleCartLinkClick = () => {
-    cartLinkClicked = true;
+    // You can perform any desired actions here
+    console.log("Cart link clicked");
   };
+
+  console.log("Cart Items:", cartItems);
+
   return (
     <div className="nav-bar-combo">
       {/* First Navbar (Top Navbar) */}
@@ -66,8 +77,8 @@ function NavBar({ isLoggedIn, logout }) {
           </Row>
         </Form>
         <Nav className="ms-auto align-items-end">
-            <Link to="/cart" className="nav-link">
-                Cart ({cartItems?.length || 0})
+        <Link to="/cart" className="nav-link" onClick={handleCartLinkClick}>
+            Cart ({cartItemCount})
               </Link>
               <Link to="/register" className="nav-link">
                 Register

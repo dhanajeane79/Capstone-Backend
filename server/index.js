@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { requireUser } = require('./api/utils');
-const { PORT = 4000, JWT_SECRET = '7367f6c194a2982ebc00c571dc2158598e652b2bf44096cc5c0ec887d1ab02b4', REFRESH_TOKEN_SECRET = 'refreshSecret' } = process.env;
+const { PORT = 4000, JWT_SECRET = '7367f6c194a2982ebc00c571dc2158598e652b2bf44096cc5c0ec887d1ab02b4', REFRESH_TOKEN_SECRET = '7367f6c194a2982ebc00c571dc2158598e652b2bf44096cc5c0ec887d1ab02b4' } = process.env;
 
 require('dotenv').config();
 

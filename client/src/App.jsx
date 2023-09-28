@@ -106,7 +106,7 @@ function App() {
             }
           />
           <Route
-            path="/cart"
+            path="/cart/"
             element={
               <Layout>
                 {" "}
