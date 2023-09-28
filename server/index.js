@@ -2,6 +2,7 @@
 // Import necessary modules and setup
 
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -16,6 +17,8 @@ client.connect();
 
 const server = express();
 
+
+
 // Middleware
 server.use(cors());
 server.use(morgan('dev'));
@@ -26,10 +29,7 @@ server.use(express.json());
 // Serve static files
 server.use('/docs', express.static(path.join(__dirname, 'public')));
 
-// Import necessary functions from db/cart.js
-const { getUserCart } = require('./db/cart');
-const jwt = require('jsonwebtoken');
-
+// 
 // Middleware to verify JWT token
 function verifyToken(req, res, next) {
   const token = req.header('Authorization');
@@ -39,8 +39,16 @@ function verifyToken(req, res, next) {
   }
 
   try {
+    // Verify and decode the token using your JWT_SECRET
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded.user;
+
+    // Extract user information from the decoded token
+    const user = decoded.user;
+
+    // Attach the user information to the request object for later use
+    req.user = user;
+
+    // Continue to the next middleware or route handler
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Token is not valid' });
