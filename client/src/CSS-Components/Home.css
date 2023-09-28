@@ -3,7 +3,7 @@ display: flex;
   justify-content: center;
   background-image: url(https://www.verinadalycare.co.uk/wp-content/uploads/2020/07/20502-1024x683.jpg);
   background-repeat: no-repeat;
- width: 100w;
+ width: 80%;
   position: relative;
   height: 75vh; /* Set the container's height to 75% of the viewport height */
   overflow: hidden; 
@@ -14,12 +14,22 @@ display: flex;
   
   background-size: cover; /* Cover the entire container with the background image */
   
-  position: absolute;
+  position:absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 70%;
+  
  
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
 }
 
 .product-categories {
@@ -27,6 +37,7 @@ display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 20px; /* Adjust the margin as needed */
+    gap: 20px;
   }
 
   .category-card-container {
@@ -34,6 +45,7 @@ display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     flex-direction: column;
+   
     
 }
   
@@ -41,7 +53,7 @@ display: flex;
 .top-category-row {
     display: flex;
     justify-content: space-between;
-    margin-top: 30%;
+    margin-top: 28%;
     flex-wrap: wrap;
    
   }
@@ -61,6 +73,7 @@ display: flex;
     justify-content: space-around;
     align-items: center;
     transition: transform 0.2s;
+    
   }
   
   .category-card:hover {
