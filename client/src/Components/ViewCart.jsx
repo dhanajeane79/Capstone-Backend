@@ -81,7 +81,7 @@ function ViewCart({ BASE_URL, token }) {
                   </Col>
                   <Col xs={6}>
                     <h3>{item.name}</h3>
-                    <p>Price: ${item.item_price}</p>
+                    <p>Price: item.item_price</p>
                   </Col>
                   <Col xs={2}>
                     <p>Quantity: {item.quantity}</p>

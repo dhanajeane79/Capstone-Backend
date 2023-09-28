@@ -112,7 +112,7 @@ function AllProducts({ BASE_URL, token, user }) {
               <div className="product-details">
                 <h2 className="product-name">{product.name}</h2>
                 <p className="product-description">{product.description}</p>
-                <p className="product-price">${product.price}</p>
+                <p className="product-price">{product.item_price}</p>
               </div>
               <div className="add-item-cart">
                 <button onClick={() => handleAddToCart(product.id)}>

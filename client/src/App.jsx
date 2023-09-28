@@ -8,6 +8,7 @@ import NavBar from "./Components/NavBar";
 import Layout from "./Components/Layout";
 import Home from "./Components/Home";
 import AllProducts from "./Components/AllProducts";
+import ProductItem from "./Components/ProductItem";
 import RegistrationForm from "./Components/RegistrationForm";
 import Login from "./Components/Login";
 import AboutUs from "./Components/AboutUs";
@@ -15,7 +16,7 @@ import OrderStatus from "./Components/OrderStatus";
 import ContactUs from "./Components/ContactUs";
 import ViewCart from "./Components/ViewCart";
 import UserProfile from "./Components/UserProfile";
-import Checkout from './Components/Checkout'; 
+import Checkout from "./Components/Checkout";
 import CartProvider from "./Components/CartProvider";
 import { Container } from "react-bootstrap";
 
@@ -53,12 +54,12 @@ function App() {
           <NavBar isLoggedIn={Boolean(token)} logout={handleLogout} />
         </Container>
         <Routes>
-  <Route
-    path="/"
-    element={
-      <Layout>
-        <Home />
-      </Layout>
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Home />
+              </Layout>
             }
           />
           <Route
@@ -107,6 +108,16 @@ function App() {
             }
           />
           <Route
+            path="/product"
+            element={
+              <Layout>
+                {" "}
+                <ProductItem user={user} BASE_URL={BASE_URL} token={token} />
+              </Layout>
+            }
+          />
+
+          <Route
             path="/cart"
             element={
               <Layout>
@@ -115,7 +126,7 @@ function App() {
               </Layout>
             }
           />
-          
+
           <Route
             path="/register"
             element={
