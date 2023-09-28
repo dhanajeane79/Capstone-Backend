@@ -102,9 +102,6 @@ function ViewCart({ BASE_URL, token }) {
             <Link to="/products" className="btn btn-secondary">
               Continue Shopping
             </Link>
-            <Button className="checkout-button mt-3" onClick={() => handlePlaceOrder()} variant="success">
-              Checkout
-            </Button>
           </div>
         </Col>
       </Row>
