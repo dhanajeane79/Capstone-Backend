@@ -34,6 +34,7 @@ function Home() {
             <div key={index} className="category-card">
               <img src={categoryImage} alt={`Category ${index + 1}`} />
               <h3>{categoryTitles[index]}</h3>
+              
               <Link to="/having-some-fun" className="shop-now-button">
                 <button className="btn btn-primary">Shop Now</button>
               </Link>

@@ -125,6 +125,19 @@ server.get('/api/cart/items', verifyToken, async (req, res) => {
   }
 });
 
+server.get('/api/having-some-fun', async (req, res) => {
+  try {
+    // Query your database to retrieve products with an ID of 1
+    const products = await client.query('SELECT * FROM products WHERE id = 1');
+
+    // Send the products as JSON in the response
+    res.json(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Failed to fetch products', message: error.message });
+  }
+});
+
 // Routes
 server.use('/api/users', require('./api/users'));
 server.use('/api/products', require('./api/products'));
