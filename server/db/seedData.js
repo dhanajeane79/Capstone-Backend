@@ -59,7 +59,7 @@ async function createInitialData() {
     VALUES
       (1, 'Guess Who', 'Board Game with People and Pets.'),
       (1, 'Monopoly', 'Marvel Spidey and His Amazing Friends Edition Board Game.'),
-      (1, 'Laptop', 'Powerful laptop for professional use.'),
+      (1, 'Poopy Puzzle', 'The Original 1000 Piece Puzzle, 101 Pooping Puppies.'),
       (2, 'T-shirt', 'Comfortable cotton T-shirt.'),
       (2, 'T-shirt', 'Comfortable cotton T-shirt.'),
       (2, 'Jeans', 'Classic blue jeans for everyday wear.'),
@@ -71,7 +71,8 @@ async function createInitialData() {
     INSERT INTO product_item (product_id, product_image, item_price)
 VALUES
   (1, 'https://m.media-amazon.com/images/I/81mFyh0CKQL._AC_UL480_FMwebp_QL65_.jpg', 14),
-  (2, 'https://m.media-amazon.com/images/I/81kRPyouyuL._AC_UL480_FMwebp_QL65_.jpg', 16);
+  (2, 'https://m.media-amazon.com/images/I/81kRPyouyuL._AC_UL480_FMwebp_QL65_.jpg', 16),
+  (3, 'https://m.media-amazon.com/images/I/81dEdmmN6IL._AC_UL480_FMwebp_QL65_.jpg', 20);
   
   
   `);
